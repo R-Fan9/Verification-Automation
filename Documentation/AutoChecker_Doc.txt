@@ -43,8 +43,8 @@ read_file_input: String
 read_sheet_input: String
 read_header_input: String 
 load_xlsx: String, String -> DataFrame (FileNotFoundException, SheetNotFoundException, FileNotSupportException)
-series_to_arr: Series -> seq of N
-get_series: DataFrame, String -> Series
+multi_files_mode: Map of String and String x Pair of String and Map
+single_file_mode: Pair of String and Map x Pair of String and Map
 runChecker:
 
 State Variables:
@@ -71,16 +71,14 @@ load_xlsx(file_dir, sheet_name):
  - exception exc := (file does not exist => FileNotFoundException  |
 		      sheet does not exit =? SheetNotFoundException |
 		      incorrect file extension => FileNotSupportException)
-series_to_arr(df):
- - output: out := df.values
- - exception: None
-get_series(df, header):
- - output: out := df[header]
- - exception: None
+single_file_mode(file1, file2):
+ - transition: operational method.
+ - output: None
+multi_files_mode(files, file1):
+ - transition: operational method.
+ - output: None
 runChecker():
- - transition: operational method for running the checker. The checker will 
-   start by prompting the user to select the checker 
-   mode (single file vs multi-files). If the single file mode is selected, 
+ - transition: operational method for running the checker. Start by prompting the user to select the checker mode (single file vs multi-files). If the single file mode is selected, 
    the user will be prompted to enter two file directories and the headers 
    of the corresponding columns. Then the checker will out put a list of 
    rows with different values. If the multi-files mode is selected, then 
@@ -108,6 +106,12 @@ cal_sum(seq) = (+s:N | s ∈ seq : s)
 
 cal_avg: seq of N -> N
 cal_avg(seq) = cal_sum(seq)/|seq|
+
+col_to_arr: Series -> seq of N
+col_to_arr(df_col) = df_col.values
+
+get_df_col: DataFrame x String -> Series
+get_df_col(df, header) = df[header]
 
 ------------------------------------------------------------------
 

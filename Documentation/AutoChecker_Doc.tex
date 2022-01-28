@@ -42,19 +42,15 @@
 \begin {document}
 
 \maketitle
-This Module Interface Specification (MIS) document contains modules, types and
-methods used to support the game of \textit{2048}. At the start of the game, 
-players are given the option to choose the size of the game board they want to 
-play on; either $4$x$4$, $5$x$5$ or $6$x$6$. Once the player has picked a size, 
-a board with the user specified size will be displayed. Initially, the game start 
-with two lowest possible numbers ($2$ or $4$) at two random positions on the 
-board. Then, players are required to move the cells left, right, up or down and 
-everytime a player makes a move, a new number ($2$ or $4$) will pop up at a random 
-position on the board. While the players are moving the cells, when two cells with 
-the same number on them collide, they will merge into one single cell with the sum 
-of their original numbers. A player can beat the game by generating a cell with 
-number $2048$. However, the game is over when there are no empty cells and no 
-adjacent cells with the same value. The game can be launched and play by typing 
+\noindent This Module Interface Specification (MIS) document contains modules, types and
+methods used to support the AutoChecker. The AutoChecker start by prompting the user to select a 
+checker mode (single file vs multi-files). If the single file mode is selected, the user will be 
+prompted to enter two file directories, their corresponding sheets and column headers. Then the 
+checker will output a list of rows with different values. If the multi-files mode is selected, 
+then user will be prompted to enter multiple (default $5$) file directories, their corresponding 
+sheets and column headers. Later, the user will be prompted to enter another file directory 
+and its corresponding sheet and column header. Then, the checker will use the data from these 
+files to output a list of rows with different values
 \texttt{make demo} in terminal.
 
 \newpage
@@ -71,17 +67,16 @@ specified and implemented for \textit{View} and \textit{Controller}
 \noindent An UML diagram is provided below for visualizing the structure of this software architecture
 
 \begin{center}
-  \includegraphics[width=0.7\textwidth]{UML_AutoChecker.png}
+  \includegraphics[width=0.6\textwidth]{UML_AutoChecker.png}
 \end{center}
 
 \medskip
 
 \noindent The MVC design pattern are specified and implemented in the following way: 
-the module \textit{BoardT} stores the state of the game board, the abstract 
-object \textit{GameStatus} determines the status of the game.A view module 
-\textit{View} displays the game board and the state of the game using a 
-text-based graphics. The controller \textit{Controller} is responsibe for 
-handling input actions
+the abstract object \textit{Checker} compare, aggregate and transform the data gather 
+from external (excel) files. A view module \textit{View} displays prompt messages and 
+rows with different values. The controller \textit{Controller} is responsibe for handling 
+input actions and the control flow of the automation
 
 \medskip
 
@@ -214,6 +209,8 @@ None
   \hline
   print\_mode\_prompt & & & \\
   \hline
+  print\_func\_prompt & & & \\
+  \hline
   print\_mat & $\text{seq of (seq of } \mathbb{N} \text{)}$ & & \\
   \hline
 
@@ -244,34 +241,39 @@ None
 
 \subsubsection* {Access Routine Semantics}
 
-\noindent get\_instance( ):
+\noindent get\_instance():
 \begin{itemize}
 \item transition: ui $:=$ (ui = null $\Rightarrow$ new View())
 \item output: \textit{self}
 \item exception: none
 \end{itemize}
 
-\noindent print\_file\_prompt( ):
+\noindent print\_file\_prompt():
 \begin{itemize}
 \item transition: window $:=$ Displays a prompt message asking the user to enter a file directory
 \end{itemize}
 
-\noindent print\_sheet\_prompt( ):
+\noindent print\_sheet\_prompt():
 \begin{itemize}
 \item transition: window $:=$ Displays a prompt message asking the user to enter a sheet name
 \end{itemize}
 
-\noindent print\_header\_prompt( ):
+\noindent print\_header\_prompt():
 \begin{itemize}
 \item transition: window $:=$ Displays a prompt message asking the user to enter a header name
 \end{itemize}
 
-\noindent print\_mode\_prompt( ):
+\noindent print\_mode\_prompt():
 \begin{itemize}
 \item transition: window $:=$ Displays a prompt message asking the user to select a checker mode
 \end{itemize}
 
-\noindent print\_mat( ):
+\noindent print\_func\_prompt():
+\begin{itemize}
+\item transition: window $:=$ Displays a prompt message asking the user to select a function
+\end{itemize}
+
+\noindent print\_mat():
 \begin{itemize}
 \item transition: window $:=$ Displays the matrix row by row
 \end{itemize}
@@ -318,6 +320,8 @@ read\_header\_input & & String & \\
 % load\_xlsx & Strint, String & DataFrame & FileNotFoundException \\ 
 %            &                &           & SheetNotFoundException \\ 
 %            &                &           & FileNotSupportException \\
+\hline
+read\_func\_input & & String & \\
 \hline
 multi\_file\_mode & Map of String and String & &\\
                   & Pair of String and Map &  & \\
@@ -387,6 +391,12 @@ get\_instance($v$):
   \item exception: none
 \end{itemize}
 
+\noindent read\_func\_input():
+\begin{itemize}
+  \item output: $input$ : String, function selected by the User
+  \item exception: none
+\end{itemize}
+
 \noindent single\_file\_mode(file1, file2):
 \begin{itemize}
   \item transition: operational method 
@@ -405,7 +415,11 @@ get\_instance($v$):
   \begin{itemize}[\null]
     \item f\_arr $:=$ [$f$:String $|$ $f \in$ f\_map.keys() $:$ get\_col\_arr($f$, f\_map[$f$]) ]
     \item Checker.trans\_mat(f\_arr)
-    \item arr1 $:=$ Checker.agg\_cols(f\_arr)
+    \item view.print\_func\_prompt()
+    \item input\_func $:=$ read\_func\_input()
+    \item func $:=$ input\_func $=$ 'sum' $\Rightarrow$ cal\_sum $|$  
+    input\_func $=$ 'avg' $\Rightarrow$ cal\_avg
+    \item arr1 $:=$ Checker.agg\_cols(f\_arr, func)
     \item arr2 $:=$ get\_col\_arr(file2[$0$], file2[$1$])
     \item unmatches\_rows $:=$ Checker.get\_unmatches(arr1, arr2)
     \item view.print\_mat(unmatches\_rows)

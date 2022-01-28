@@ -92,7 +92,7 @@ Checker
 
 \subsection* {Uses}
 
-None
+pandas
 
 \subsection* {Syntax}
 
@@ -110,12 +110,21 @@ Checker = ?
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-get\_unmatches & $\text{seq of } \mathbb{N}$, $\text{seq of } \mathbb{N}$ & $\text{seq of (seq of } \mathbb{N} \text{)}$ & \\
+filter\_unmatches & DataFrame, String, String & DataFrame & \\
 \hline
-agg\_cols & $\text{seq of (seq of } \mathbb{N} \text{)}$, $\text{seq of } \mathbb{N} \rightarrow \mathbb{N}$ & $\text{seq of } \mathbb{N}$ & \\
+join\_df & DataFrame, DataFrame, String & DataFrame & \\
 \hline
-trans\_mat & $\text{seq of (seq of } \mathbb{N} \text{)}$ & & \\
+sum\_df\_cols & DataFrame, $\mathbb{N}$, $\mathbb{N}$, String & & \\
 \hline
+avg\_df\_cols & DataFrame, $\mathbb{N}$, $\mathbb{N}$, String & & \\
+\hline
+% \hline
+% get\_unmatches & $\text{seq of } \mathbb{N}$, $\text{seq of } \mathbb{N}$ & $\text{seq of (seq of } \mathbb{N} \text{)}$ & \\
+% \hline
+% agg\_cols & $\text{seq of (seq of } \mathbb{N} \text{)}$, $\text{seq of } \mathbb{N} \rightarrow \mathbb{N}$ & $\text{seq of } \mathbb{N}$ & \\
+% \hline
+% trans\_mat & $\text{seq of (seq of } \mathbb{N} \text{)}$ & & \\
+% \hline
 
 \end{tabular}
 
@@ -131,45 +140,68 @@ None
 
 \subsubsection* {Assumptions}
 
-\begin{itemize}
-  \item Every row that is being compared correspond to the same app prefix
-  \item The number of rows that are being compared between columns are equal
-\end{itemize}
+None
 
 \subsubsection* {Access Routine Semantics}
 
-\noindent get\_unmatches(col1, col2):
+\noindent filter\_unmatches(df, col1, col2):
 \begin{itemize}
-    \item output: out $:= [ i: \mathbb{N} | i \in \{0 .. |\text{col}1|-1\} : \text{col}1[i] \neq \text{col}2[i] \Rightarrow [ i,  \text{col}1[i], \text{col}2[i]] ]$
+    \item output: filter out every row in the DataFrame that has different values in the two specified columns
     \item exception: none
 \end{itemize}
 
-\noindent agg\_cols(cols, func):
+\noindent join\_df(df1, df2, key):
 \begin{itemize}
-    \item output: out $:= [ i: \mathbb{N} | i \in \{0 .. |\text{cols}|-1\} : \text{func(cols}[i]\text{)} ]$
+    \item output: inner join two DataFrames on the specified key
     \item exception: none
 \end{itemize}
 
-\noindent trans\_mat(matrix):
+\noindent sum\_df\_cols(df, start\_idx, end\_idx, col\_name):
 \begin{itemize}
-    \item transition: $\forall i : \mathbb{N} \; | \; i < |\text{matrix}| $ $\wedge$ 
-    ($\forall j : \mathbb{N} \; | \; i \le j < |\text{matrix}[i]|$ $\wedge$ tr\_swap($i$, $j$))
+    \item transition: add an additional column with the input name to the DataFrame that stores the sum of 
+    every row from the specified starting index to the ending index
     \item exception: none
 \end{itemize}
 
-\subsubsection*{Local Function:}
-
-% \noindent transMat: seq of (seq of $\mathbb{N}$)\\
-% transMat(matrix): $\forall$ $i : \mathbb{N}$ $|$ $i < |\text{matrix}| $ $\wedge$ 
-% ($\forall$ $j : \mathbb{N}$ $|$ $i \le j < |\text{matrix}[i]|$ $\wedge$ $\text{trSwap}(i, j)$)\\
-
-\noindent tr\_swap: seq of (seq of $\mathbb{N}$) $\times \mathbb{N} \times \mathbb{N} \rightarrow$ void\\
-\noindent tr\_swap(matrix, row, col): 
-\begin{itemize}[\null]
-  \item tmp $:=$ matrix[row][col]
-  \item matrix[row][col] $:=$ matrix[col][row]
-  \item matrix[col][row] $:=$ tmp
+\noindent avg\_df\_cols(df, start\_idx, end\_idx, col\_name):
+\begin{itemize}
+    \item transition: add an additional column with the input name to the DataFrame that stores the average of 
+    every row from the specified starting index to the ending index
+    \item exception: none
 \end{itemize}
+
+% \noindent get\_unmatches(col1, col2):
+% \begin{itemize}
+%     \item output: out $:= [ i: \mathbb{N} | i \in \{0 .. |\text{col}1|-1\} : \text{col}1[i] \neq \text{col}2[i] \Rightarrow [ i,  \text{col}1[i], \text{col}2[i]] ]$
+%     \item exception: none
+% \end{itemize}
+
+% \noindent agg\_cols(cols, func):
+% \begin{itemize}
+%     \item output: out $:= [ i: \mathbb{N} | i \in \{0 .. |\text{cols}|-1\} : \text{func(cols}[i]\text{)} ]$
+%     \item exception: none
+% \end{itemize}
+
+% \noindent trans\_mat(matrix):
+% \begin{itemize}
+%     \item transition: $\forall i : \mathbb{N} \; | \; i < |\text{matrix}| $ $\wedge$ 
+%     ($\forall j : \mathbb{N} \; | \; i \le j < |\text{matrix}[i]|$ $\wedge$ tr\_swap($i$, $j$))
+%     \item exception: none
+% \end{itemize}
+
+% \subsubsection*{Local Function:}
+
+% % \noindent transMat: seq of (seq of $\mathbb{N}$)\\
+% % transMat(matrix): $\forall$ $i : \mathbb{N}$ $|$ $i < |\text{matrix}| $ $\wedge$ 
+% % ($\forall$ $j : \mathbb{N}$ $|$ $i \le j < |\text{matrix}[i]|$ $\wedge$ $\text{trSwap}(i, j)$)\\
+
+% \noindent tr\_swap: seq of (seq of $\mathbb{N}$) $\times \mathbb{N} \times \mathbb{N} \rightarrow$ void\\
+% \noindent tr\_swap(matrix, row, col): 
+% \begin{itemize}[\null]
+%   \item tmp $:=$ matrix[row][col]
+%   \item matrix[row][col] $:=$ matrix[col][row]
+%   \item matrix[col][row] $:=$ tmp
+% \end{itemize}
 
 \newpage
 
@@ -211,7 +243,7 @@ None
   \hline
   print\_func\_prompt & & & \\
   \hline
-  print\_mat & $\text{seq of (seq of } \mathbb{N} \text{)}$ & & \\
+  print\_df & DataFrame & & \\
   \hline
 
 \end{tabular}
@@ -273,9 +305,9 @@ None
 \item transition: window $:=$ Displays a prompt message asking the user to select a function
 \end{itemize}
 
-\noindent print\_mat():
+\noindent print\_df(df):
 \begin{itemize}
-\item transition: window $:=$ Displays the matrix row by row
+\item transition: window $:=$ Displays the DataFrame
 \end{itemize}
 
 \subsubsection*{Local Function:}
@@ -401,10 +433,11 @@ get\_instance($v$):
 \begin{itemize}
   \item transition: operational method 
   \begin{itemize}[\null]
-    \item arr1 $:=$ get\_col\_arr(file1[$0$], file1[$1$])
-    \item arr2 $:=$ get\_col\_arr(file2[$0$], file2[$1$])
-    \item unmatches\_rows $:=$ Checker.get\_unmatches(arr1, arr2)
-    \item view.print\_mat(unmatches\_rows)
+    \item df1 $:=$ get\_df\_col(file1[$0$], file1[$1$])
+    \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
+    \item dfj $:=$ Checker.join\_df(df1, df2, 'prefix') 
+    \item df\_umatches $:=$ Checker.filter\_unmatches(dfj, file1[$1$]['header'], file2[$1$]['header'])
+    \item view.print\_df(df\_unmatches)
   \end{itemize}
   \item output: none
 \end{itemize}
@@ -413,16 +446,18 @@ get\_instance($v$):
 \begin{itemize}
   \item transition: operational method 
   \begin{itemize}[\null]
-    \item f\_arr $:=$ [$f$:String $|$ $f \in$ f\_map.keys() $:$ get\_col\_arr($f$, f\_map[$f$]) ]
-    \item Checker.trans\_mat(f\_arr)
+    \item f\_arr $:=$ [$f$:String $|$ $f \in$ f\_map.keys() $:$ get\_df\_col($f$, f\_map[$f$]) ]
+    \item df\_mult $:=$ f\_arr[$0$]
+    \item df\_mult $:=$ (Check.join\_df(df\_join, f\_arr[i]) DataFrame, 
+    $i:\mathbb{N}$ $|$ $i \in \{1..|f\_arr|-1\}$ $:$ f\_arr[i])
     \item view.print\_func\_prompt()
     \item input\_func $:=$ read\_func\_input()
-    \item func $:=$ input\_func $=$ 'sum' $\Rightarrow$ cal\_sum $|$  
-    input\_func $=$ 'avg' $\Rightarrow$ cal\_avg
-    \item arr1 $:=$ Checker.agg\_cols(f\_arr, func)
-    \item arr2 $:=$ get\_col\_arr(file2[$0$], file2[$1$])
-    \item unmatches\_rows $:=$ Checker.get\_unmatches(arr1, arr2)
-    \item view.print\_mat(unmatches\_rows)
+    \item input\_func $=$ 'sum' $\Rightarrow$ sum\_df\_cols(df\_mult, $1$, $|f\_arr|-1$, input\_func) $|$  
+    input\_func $=$ 'avg' $\Rightarrow$ av\_df\_cols(df\_mult, $1$, $|f\_arr|-1$, input\_func)
+    \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
+    \item df\_join $:=$ Checker.join\_df(df\_mult, df2,' prefix') 
+    \item df\_unmatches $:=$ Checker.filter\_unmatches(df\_join, input\_func, file2[$1$]['header'])
+    \item view.print\_df(df\_unmatches)
   \end{itemize}
   \item output: none
 \end{itemize}
@@ -460,28 +495,18 @@ get\_instance($v$):
 \_\_init\_\_: View $\rightarrow$ Controller \\
 \_\_init\_\_($view$) $\equiv$ new Controller($view$) \\
 
-% $\text{tmp} = \text{matrix}[row][col] \ \wedge \  
-% \text{matrix}[row][col] = \text{matrix}[col][row] \ \wedge \ 
-% \text{matrix}[col][row] = \text{tmp}$\\
+% \noindent cal\_sum: seq of $\mathbb{N} \rightarrow \mathbb{N}$\\
+% cal\_sum(seq) $\equiv (+s:\mathbb{N} \; | \; s \in \text{seq} : s)$ \\
 
-\noindent cal\_sum: seq of $\mathbb{N} \rightarrow \mathbb{N}$\\
-cal\_sum(seq) $\equiv (+s:\mathbb{N} \; | \; s \in \text{seq} : s)$ \\
+% \noindent cal\_avg: seq of $\mathbb{N} \rightarrow \mathbb{N}$\\
+% cal\_avg(seq) $\equiv \text{cal\_sum}(seq) / |\text{seq}|$\\
 
-\noindent cal\_avg: seq of $\mathbb{N} \rightarrow \mathbb{N}$\\
-cal\_avg(seq) $\equiv \text{cal\_sum}(seq) / |\text{seq}|$\\
-
-\noindent get\_col: String $\times$ Map of String and String $\rightarrow$ seq of $\mathbb{N}$\\
-get\_col\_arr(file\_dir, info\_map):
+\noindent get\_df\_col: String $\times$ Map of String and String $\rightarrow$ DataFrame\\
+get\_df\_col(file\_dir, info\_map):
 \begin{itemize}[\null]
   \item df $:=$ load\_xlsx(file\_dir, info\_map['sheet'])
-  \item return df[info\_map['header']].values
+  \item out $:=$ df[[prefix, info\_map['header']]]
 \end{itemize}
-
-% \noindent col\_to\_arr: Series $\rightarrow$ seq of $\mathbb{N}$\\
-% col\_to\_arr(df\_col) $\equiv$ df\_col.values\\
-
-% \noindent get\_df\_col: DataFrame $\times$ String $\rightarrow$ Series\\
-% get\_df\_col(df, header) $\equiv$ df[header]\\
 
 \noindent get\_inputs: seq of String\\
 get\_inputs(p): 
@@ -492,7 +517,7 @@ get\_inputs(p):
   \item sheet $:=$ read\_sheet\_input()
   \item view.print\_header\_input()
   \item header $:=$ read\_header\_input()
-  \item return [file\_dir, sheet, header]
+  \item out $:=$ [file\_dir, sheet, header]
 \end{itemize}
 
 \noindent populate\_pair: Pair $\rightarrow$ void\\
@@ -500,7 +525,7 @@ populate\_pair(p):
 \begin{itemize}[\null]
   \item inputs $:=$ get\_inputs()
   \item $p[0] :=$ inputs[$0$]
-  \item $p[1] :=$ {'sheet':inputs[$1$], 'header':inputs[$2$]}
+  \item $p[1] :=$ \{'sheet':inputs[$1$], 'header':inputs[$2$]\}
 \end{itemize}
 
 \noindent load\_xlsx: String $\times$ String $\rightarrow$ DataFrame\\

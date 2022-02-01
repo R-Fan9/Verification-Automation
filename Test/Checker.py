@@ -1,3 +1,5 @@
+from cmath import nan
+import pandas as pd
 
 class Checker:
     def get_unmatches(df, col_h1, col_h2):
@@ -8,3 +10,17 @@ class Checker:
         pass
     def avg_df_cols(df, start_idx, end_idx, new_col):
         pass
+
+def main():
+    df = pd.read_excel('Book1.xlsx')
+    print(df)
+    val = df.iloc[0,1]
+    print(val, type(val))
+    print()
+
+    df1 = pd.DataFrame([[1, nan],[1,2]])
+    print(df1)
+    print(type(df1.iloc[0,1]))
+
+main()
+

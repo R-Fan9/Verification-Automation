@@ -452,8 +452,8 @@ get\_instance($v$):
     $i:\mathbb{N}$ $|$ $i \in \{1..|f\_arr|-1\}$ $:$ f\_arr[i])
     \item view.print\_func\_prompt()
     \item input\_func $:=$ read\_func\_input()
-    \item input\_func $=$ 'sum' $\Rightarrow$ sum\_df\_cols(df\_mult, $1$, $|f\_arr|-1$, input\_func) $|$  
-    input\_func $=$ 'avg' $\Rightarrow$ av\_df\_cols(df\_mult, $1$, $|f\_arr|-1$, input\_func)
+    \item input\_func $=$ 'sum' $\Rightarrow$ Checker.sum\_df\_cols(df\_mult, $1$, $|f\_arr|-1$, input\_func) $|$  
+    input\_func $=$ 'avg' $\Rightarrow$ Checker.avg\_df\_cols(df\_mult, $1$, $|f\_arr|-1$, input\_func)
     \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
     \item df\_join $:=$ Checker.join\_df(df\_mult, df2,' prefix') 
     \item df\_unmatches $:=$ Checker.get\_unmatches(df\_join, input\_func, file2[$1$]['header'])

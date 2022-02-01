@@ -110,7 +110,7 @@ Checker = ?
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-filter\_unmatches & DataFrame, String, String & DataFrame & \\
+get\_unmatches & DataFrame, String, String & DataFrame & \\
 \hline
 join\_df & DataFrame, DataFrame, String & DataFrame & \\
 \hline
@@ -144,7 +144,7 @@ None
 
 \subsubsection* {Access Routine Semantics}
 
-\noindent filter\_unmatches(df, col1, col2):
+\noindent get\_unmatches(df, col1, col2):
 \begin{itemize}
     \item output: filter out every row in the DataFrame that has different values in the two specified columns
     \item exception: none
@@ -436,7 +436,7 @@ get\_instance($v$):
     \item df1 $:=$ get\_df\_col(file1[$0$], file1[$1$])
     \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
     \item dfj $:=$ Checker.join\_df(df1, df2, 'prefix') 
-    \item df\_umatches $:=$ Checker.filter\_unmatches(dfj, file1[$1$]['header'], file2[$1$]['header'])
+    \item df\_umatches $:=$ Checker.get\_unmatches(dfj, file1[$1$]['header'], file2[$1$]['header'])
     \item view.print\_df(df\_unmatches)
   \end{itemize}
   \item output: none
@@ -456,7 +456,7 @@ get\_instance($v$):
     input\_func $=$ 'avg' $\Rightarrow$ av\_df\_cols(df\_mult, $1$, $|f\_arr|-1$, input\_func)
     \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
     \item df\_join $:=$ Checker.join\_df(df\_mult, df2,' prefix') 
-    \item df\_unmatches $:=$ Checker.filter\_unmatches(df\_join, input\_func, file2[$1$]['header'])
+    \item df\_unmatches $:=$ Checker.get\_unmatches(df\_join, input\_func, file2[$1$]['header'])
     \item view.print\_df(df\_unmatches)
   \end{itemize}
   \item output: none

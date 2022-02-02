@@ -116,7 +116,7 @@ join\_df & DataFrame, DataFrame, String & DataFrame & \\
 \hline
 sum\_df\_cols & DataFrame, $\mathbb{N}$, $\mathbb{N}$, String & & \\
 \hline
-avg\_df\_cols & DataFrame, $\mathbb{N}$, $\mathbb{N}$, String & & \\
+avg\_df\_cols & DataFrame, $\mathbb{N}$, $\mathbb{N}$, String & ZeroDivisionError & \\
 \hline
 % \hline
 % get\_unmatches & $\text{seq of } \mathbb{N}$, $\text{seq of } \mathbb{N}$ & $\text{seq of (seq of } \mathbb{N} \text{)}$ & \\
@@ -167,7 +167,7 @@ None
 \begin{itemize}
     \item transition: add an additional column with the input name to the DataFrame that stores the average of 
     every row from the specified starting index to the ending index
-    \item exception: none
+    \item exception: start\_idx = end\_idx $\Rightarrow$ ZeroDivisionError
 \end{itemize}
 
 % \noindent get\_unmatches(col1, col2):
@@ -355,7 +355,7 @@ read\_header\_input & & String & \\
 \hline
 read\_func\_input & & String & \\
 \hline
-multi\_file\_mode & Map of String and String & &\\
+multi\_file\_mode & Map of String and Map & &\\
                   & Pair of String and Map &  & \\
 \hline
 single\_file\_mode & Pair of String and Map & &\\

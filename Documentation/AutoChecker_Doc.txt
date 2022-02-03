@@ -1,0 +1,166 @@
+Checker Moduel
+
+Module:
+Checker
+
+Uses:
+None
+
+Exported Access Programs:
+Checker: Checker
+get_umatches: seq of N X seq of N -> seq of (seq of N)
+agg_mat: seq of (seq of N), seq of N -> N -> seq of N
+
+State Variables:
+None
+
+Assumptions:
+ - Every row that is being compared correspond to the same app prefix
+ - The number of rows that are being compared between columns are
+   equal
+
+Access Routine Semantics:
+get_unmatches(col1, col2);
+ - output: out := <i:N | i ∈ [0..|col1|-1] : col1[i] != col2[i] => <i, col1[i], col2[i]>>
+ - exception: None
+agg_mat(matrix, func):
+ - output: out := <i:N | i ∈ [0..|matrix|-1] : func(matrix[i])>
+ - exception: None
+
+------------------------------------------------------------------
+
+Controller Module
+
+Module:
+Controller
+
+Uses:
+Checker, View, pandas
+
+Exported Access Programs:
+getInstance: View -> Controller
+read_file_input: String
+read_sheet_input: String
+read_header_input: String 
+load_xlsx: String, String -> DataFrame (FileNotFoundException, SheetNotFoundException, FileNotSupportException)
+multi_files_mode: Map of String and String x Pair of String and Map
+single_file_mode: Pair of String and Map x Pair of String and Map
+runChecker:
+
+State Variables:
+controller: Controller
+view: View
+
+Access Routine Semantics:
+getInstance(v):
+ - transition: controller := (controller = null => new Controller(v))
+ - output: self
+ - exception: None
+read_file_input():
+ - output: file_dir: String, file directory entered by the User
+ - exception: None
+read_sheet_input():
+ - output: sheet_name: String, sheet name entered by the User
+ - exception: None
+read_header_input():
+ - output: header: String, header entered by the User
+ - exception: None
+read_mode_input():
+load_xlsx(file_dir, sheet_name):
+ - output: out := panads.read_excel(file_dir, sheet_name=sheet_name) 
+ - exception exc := (file does not exist => FileNotFoundException  |
+		      sheet does not exit =? SheetNotFoundException |
+		      incorrect file extension => FileNotSupportException)
+single_file_mode(file1, file2):
+ - transition: operational method.
+ - output: None
+multi_files_mode(files, file1):
+ - transition: operational method.
+ - output: None
+runChecker():
+ - transition: operational method for running the checker. Start by prompting the user to select the checker mode (single file vs multi-files). If the single file mode is selected, 
+   the user will be prompted to enter two file directories and the headers 
+   of the corresponding columns. Then the checker will out put a list of 
+   rows with different values. If the multi-files mode is selected, then 
+   user will be prompted to enter multiple (default 5) file directories and 
+   the headers of the columns. Later, the DataFrames generated from these 
+   files will be combined into a nested array. The user will then be 
+   prompted to enter another file directory and the checker will use 
+   the nested array and the new file to output a list of rows with 
+   different values
+ - output: None
+
+Local Functions:
+__init__: View -> Controller
+__init__(view) = new Controller(view)
+
+transMat: seq of (seq of N)
+transMat(matrix): ∀ i : N | i < |matrix| ∧ (∀ j : N | i ≤ j < |matrix[i]| ∧ trSwap(matrix, i, j))
+
+trSwap: seq of (seq of N) x N x N
+trSwap(matrix, row, col): tmp = matrix[row][col] ∧ matrix[row][col] = matrix[col][row] 
+∧ matrix[col][row] = tmp
+
+cal_sum: seq of N -> N 
+cal_sum(seq) = (+s:N | s ∈ seq : s)
+
+cal_avg: seq of N -> N
+cal_avg(seq) = cal_sum(seq)/|seq|
+
+col_to_arr: Series -> seq of N
+col_to_arr(df_col) = df_col.values
+
+get_df_col: DataFrame x String -> Series
+get_df_col(df, header) = df[header]
+
+------------------------------------------------------------------
+
+View Module
+
+Module:
+View
+
+Uses:
+Checker
+
+Exported Access Programs:
+getInstance: View
+print_file_prompt:
+print_sheet_prompt:
+print_header_prompt:
+print_mode_prompt:
+print_unmatch_rows: seq of (seq of N)
+
+State Variables:
+ui: View
+
+Access Routine Semantics:
+get_instance():
+ - transition: ui := (ui = null => new View())
+ - output: self
+ - exception: None
+print_file_prompt():
+ - tranisition: window := Displays a prompt message asking the 
+   user to enter a file directory
+print_sheet_prompt():
+ - transition: window := Displays a prompt message asking the 
+   user to enter a sheet name
+print_header_prompt():
+ - transition: window := Displays a prompt message asking the 
+   user to enter a header name
+print_mode_prompt():
+ - transition: window := Displays a prompt message asking the 
+   user to select a checker mode
+print_mat(matrix):
+ - transition: window := Displays the matrix row by row
+
+Local Functions:
+__init__: View
+__init__() = new View()
+
+
+
+
+
+
+

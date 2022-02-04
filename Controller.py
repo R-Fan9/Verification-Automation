@@ -6,7 +6,7 @@ class Controller:
     __checker = None
     __controller = None
 
-    __multi_file_num = 2
+    __multi_file_num = 5
 
     @staticmethod
     def get_instance(view, checker):
@@ -48,8 +48,8 @@ class Controller:
     
     def read_func_input(self):
         user_input = input()
-        while user_input not in ["s", "a"]:
-            print("Please enter 's' or 'a' ")
+        while user_input not in [ut.COL_SUM, ut.COL_AVG]:
+            print("Please enter '{}' or '{}' ".format(ut.COL_SUM, ut.COL_AVG))
             user_input = input()
 
         return user_input
@@ -85,13 +85,7 @@ class Controller:
         df_mult = self.__map_to_df(f_map)
 
         self.__view.print_func_prompt()
-        input_func = self.read_func_input()
-
-        func = ''
-        if input_func == 's':
-            func = ut.COL_SUM
-        elif input_func == 'a':
-            func = ut.COL_AVG
+        func = self.read_func_input()
 
         self.__aggregate_cols(df_mult,  func)
 

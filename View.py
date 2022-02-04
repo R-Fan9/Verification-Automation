@@ -1,3 +1,5 @@
+import utils as ut
+
 class View:
 
     __ui = None
@@ -30,7 +32,7 @@ class View:
         print("Please select mode single(s) or multi(m): ")
     
     def print_func_prompt(self):
-        print("Please select func sum(s) or avg(a): ")
+        print("Please select func {} or {}: ".format(ut.COL_SUM, ut.COL_AVG))
 
     def print_df(self, df):
         print(df)

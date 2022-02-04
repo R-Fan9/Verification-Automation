@@ -18,7 +18,7 @@ class Checker:
 
     @staticmethod
     def avg_df_cols(df):
-        df[ut.COL_AVG] = (df.sum(axis=1, skipna=True))/(len(df.columns) - 1)
+        df[ut.COL_AVG] = df.mean(axis=1, skipna=True)
 
     @staticmethod
     def nan_to_zero(df):

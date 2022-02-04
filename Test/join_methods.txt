@@ -1,0 +1,28 @@
+COlL:
+a 1
+b 2
+c 6
+
+COL2:
+a 3
+c 4
+d 5
+
+Master & Report
+COL1 inner join COL2
+a 1 3
+c 6 4
+
+Master & Master
+COL1 outer join COL2
+a 1 3
+c 6 4
+b 2 nan
+d nan 5
+
+Dashboard & Master
+COL1 inner join COL2
+a 1 nan
+b 2 nan
+
+

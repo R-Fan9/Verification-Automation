@@ -6,7 +6,7 @@ class Controller:
     __checker = None
     __controller = None
 
-    __multi_file_num = 5
+    __multi_file_num = 2
 
     @staticmethod
     def get_instance(view, checker):
@@ -116,8 +116,6 @@ class Controller:
                 if file_dir not in f_map:
                     f_map[inputs[0]] = {"sheet":inputs[1], "prefix":inputs[2], "header":inputs[3]}
                     i += 1
-                else:
-                    print("Sorry, this file already entered...")
 
             f1 = [None]*2
             self.__populate_pair(f1)
@@ -156,7 +154,7 @@ class Controller:
         prefix = info_map["prefix"]
         column = info_map["header"]
 
-        header = 1 if sheet in [ut.SHEET_WR, ut.SHEET_ASD] else 0
+        header = 1 if sheet in [ut.SHEET_MASTER, ut.SHEET_DASHBOARD] else 0
 
         df = pd.read_excel(file_dir, sheet_name=sheet, header=header)
         return df[[prefix, column]]

@@ -92,9 +92,9 @@ master_DEV_UAT_PROD = [[[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER
                        [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[6]}], 
-                       [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}],
+                       [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
-                       [file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[7]}], 
+                       [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[7]}], 
                        [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[2]}], 
@@ -103,8 +103,8 @@ master_DEV_UAT_PROD = [[[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[3]}], 
                        [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
-                       [file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[8]}], 
-                       [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}],
+                       [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[8]}], 
+                       [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[9]}], 
                        [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}]],

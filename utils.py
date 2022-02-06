@@ -22,13 +22,13 @@ PREFIX_D_U_P = "Prefix"
 # Dashboard
 SHEET_DASHBOARD = 'AutoSysDashboard'
 DASHBOARD_PREFIX = "Prefix"
-DASHBOARD_HEADER_11 = ["TotalJobsDefined (DEV - R11.0)", "TotalJobsRun (DEV - R11.0)",
-                       "TotalJobsDefined (UAT - R11.0)", "TotalJobsRun (UAT - R11.0)",
-                       "TotalJobsDefined (PROD - R11.0)", "TotalJobsRun  (PROD - R11.0)"]
+DASHBOARD_HEADER_11 = ["Total\nJobs\nDefined (DEV - R11.0)", "Total\nJobs\nRun (DEV - R11.0)",
+                       "Total\nJobs\nDefined (UAT - R11.0)", "Total\nJobs\nRun (UAT - R11.0)",
+                       "Total\nJobs\nDefined (PROD - R11.0)", "Total\nJobs\nRun  (PROD - R11.0)"]
 
-DASHBOARD_HEADER_36 = ["TotalJobs Defined (DEV - R11.3.6)", "TotalJobsRun (DEV - R11.3.6)",
-                       "TotalJobsDefined (UAT - R11.3.6)", "TotalJobsRun (UAT - R11.3.6)",
-                       "TotalJobsDefined (PROD - R11.3.6)", "TotalJobsRun (PROD - R11.3.6)"]
+DASHBOARD_HEADER_36 = ["Total\nJobs\nDefined (DEV - R11.3.6)", "Total\nJobs\nRun (DEV - R11.3.6)",
+                       "Total\nJobs\nDefined (UAT - R11.3.6)", "Total\nJobs\nRun (UAT - R11.3.6)",
+                       "Total\nJobs\nDefined (PROD - R11.3.6)", "Total\nJobs\nRun (PROD - R11.3.6)"]
 
 DASHBOARD_PRE_CUR = ["A1D", "A1U", "A1P", "C1D", "C1U", "C1P",
                      "A1D Runs", "A1U Runs", "A1P Runs", "C1D Runs", "C1U Runs", "C1P Runs",
@@ -38,7 +38,7 @@ DASHBOARD_PRE_CUR = ["A1D", "A1U", "A1P", "C1D", "C1U", "C1P",
 # inputs (single)
 file_dir_Report = 'Report.xlsx'
 file_dir_Master = 'MasterAfterUpdates_1.17.xlsx'
-file_dir_Master_pre = ''
+file_dir_Master_pre = 'MasterAfterUpdates_1.17(1).xlsx'
 file_dir_Dashboard = 'AutosysMigration_dashboard2.xlsm'
 Input_date = '2022-11-28'
 
@@ -92,9 +92,9 @@ master_DEV_UAT_PROD = [[[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER
                        [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[6]}], 
-                       [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}],
+                       [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
-                       [file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[7]}], 
+                       [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[7]}], 
                        [file_dir_Dashboard, {"sheet":SHEET_DEV, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[2]}], 
@@ -103,8 +103,8 @@ master_DEV_UAT_PROD = [[[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[3]}], 
                        [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
-                       [file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[8]}], 
-                       [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}],
+                       [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[8]}], 
+                       [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}]],
 
                        [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[9]}], 
                        [file_dir_Dashboard, {"sheet":SHEET_UAT, "prefix":PREFIX_D_U_P, "header":Input_date}]],
@@ -134,10 +134,10 @@ master_dashboard = [[[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PR
                     [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_HEADER_36[0]}]],
 
                     [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[8]}], 
-                    [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_HEADER_11[2]}]],
+                    [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_HEADER_36[2]}]],
 
                     [[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[10]}], 
-                    [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_HEADER_11[4]}]],
+                    [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_HEADER_36[4]}]],
 
                     [[file_dir_Master_pre, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[0]}], 
                     [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_PRE_CUR[0]}]],
@@ -239,9 +239,10 @@ MASTER_DEV_UAT_PROD = 'mDUP'
 MASTER_DASHBOARD = 'md'
 MULTI_MASTER_DASHBOARD = 'mmd'
 
+
 check_files = {
-    REPORT_MASTER: report_master, 
-    MASTER_DEV_UAT_PROD: master_DEV_UAT_PROD, 
+    #REPORT_MASTER: report_master, 
+    #MASTER_DEV_UAT_PROD: master_DEV_UAT_PROD, 
     MASTER_DASHBOARD: master_dashboard, 
-    MULTI_MASTER_DASHBOARD: multi_master_dashboard
+    #MULTI_MASTER_DASHBOARD: multi_master_dashboard
     }

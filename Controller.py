@@ -1,5 +1,6 @@
 import pandas as pd
 import utils as ut
+from datetime import datetime as dt
 
 class Controller:
     __view = None
@@ -114,7 +115,12 @@ class Controller:
                 for files in ut.check_files[check]:
                     f1 = files[0]
                     f2 = files[1]
-                    f2[1]['header'] += ' 00:00:00.{}'.format(i%self.__DUP_col_num)
+                    col_index = i%self.__DUP_col_num
+                    a = f2[1]["header"]
+                    if col_index == 0:
+                        f2[1]["header"] = dt.strptime(a + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+                    else:
+                        f2[1]['header'] += ' 00:00:00.{}'.format(col_index)
                     self.single_file_mode(f1,f2)
                     i += 1
             elif(check == ut.MULTI_MASTER_DASHBOARD):

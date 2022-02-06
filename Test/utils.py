@@ -38,9 +38,9 @@ DASHBOARD_PRE_CUR = ["A1D", "A1U", "A1P", "C1D", "C1U", "C1P",
 # inputs (single)
 file_dir_Report = 'Report.xlsx'
 file_dir_Master = 'MasterAfterUpdates_1.17.xlsx'
-file_dir_Master_pre = 'MasterAfterUpdates_1.17(1).xlsx'
+file_dir_Master_pre = ''
 file_dir_Dashboard = 'AutosysMigration_dashboard2.xlsm'
-Input_date = '2022-11-28'
+Input_date = ''
 
 # inputs (multi)
 file_dir_Master_1 = ''
@@ -182,9 +182,9 @@ master_dashboard = [[[file_dir_Master, {"sheet":SHEET_MASTER, "prefix":MASTER_PR
                     [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_PRE_CUR[13]}]],
 
                     [[file_dir_Master_pre, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[5]}], 
-                    [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_PRE_CUR[14]}],
+                    [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_PRE_CUR[14]}]],
 
-                    [file_dir_Master_pre, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[7]}], 
+                    [[file_dir_Master_pre, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[7]}], 
                     [file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefix":DASHBOARD_PREFIX, "header":DASHBOARD_PRE_CUR[15]}]],
 
                     [[file_dir_Master_pre, {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[9]}], 

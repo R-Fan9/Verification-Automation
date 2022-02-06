@@ -104,12 +104,12 @@ class Controller:
 
     def run_checker_auto(self):
         for check in ut.check_files.keys():
-            if(check == 'rm' or check == 'md'):
+            if(check == ut.REPORT_MASTER or check == ut.MASTER_DASHBOARD):
                 for files in ut.check_files[check]:
                     f1 = files[0]
                     f2 = files[1]
                     self.single_file_mode(f1, f2)
-            elif(check == 'm_DUP'):
+            elif(check == ut.MASTER_DEV_UAT_PROD):
                 i = 0
                 for files in ut.check_files[check]:
                     f1 = files[0]
@@ -117,7 +117,7 @@ class Controller:
                     f2[1]['header'] += ' 00:00:00.{}'.format(i%self.__DUP_col_num)
                     self.single_file_mode(f1,f2)
                     i += 1
-            elif(check == 'mmd'):
+            elif(check == ut.MULTI_MASTER_DASHBOARD):
                 for files in ut.check_files[check]:
                     f1 = files[0]
                     f_map = files[1]

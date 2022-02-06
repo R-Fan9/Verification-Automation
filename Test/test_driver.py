@@ -1,6 +1,5 @@
 from cmath import nan
 from Checker import Checker
-import pytest
 import pandas as pd
 
 KEY = 'PF'
@@ -82,6 +81,12 @@ class TestChecker:
             ['e', 31],
         ]
 
+        self.data5 = [
+            ['a', nan, 1],
+            ['b', nan, nan],
+            [nan, 1, nan],
+            ]
+
     def teardown_method(self, method):
         self.checker = None
         self.data1 = None
@@ -92,8 +97,9 @@ class TestChecker:
         self.data3_fst = None
         self.data3_snd = None
         self.data4 = None
-        self.data2_fst = None
-        self.data2_snd = None
+        self.data4_fst = None
+        self.data4_snd = None
+        self.data5 = None
 
     def test_get_unmatch(self):
         # case1: empty data
@@ -227,7 +233,11 @@ class TestChecker:
         # case1: empty data
         d1_tru = []
         # case2: rows with missing values
-        d2_tru = [['a', 885], ['c', 678], ['d', 7]]
+        d2_tru = [
+            ['a', 401, 0, 32, 452, 885], 
+            ['c', 238, 238, 101, 101, 678], 
+            ['d', 0, 1, 3, 3, 7]
+        ]
         # self.data2 = [
         #     ['a', 401, 0],
         #     ['c', 238, 238],
@@ -243,7 +253,12 @@ class TestChecker:
         # ]
 
         # case4: rows with values that are not number
-        d3_tru = [['a', 484], ['b', 516], ['c', 202], ['d', 6]]
+        d3_tru = [
+            ['a', 32, 452, 484], 
+            ['b', 263, 253, 516], 
+            ['c', 101, 101, 202],
+            ['d', 3, 3, 6]
+        ]
         # self.data3_fst = [
         #     ['a', 32],
         #     ['b', 263],
@@ -257,7 +272,10 @@ class TestChecker:
         #     ['b', 253], 
         # ]
         
-        d4_tru = [['e', 62], ['f', 717]]
+        d4_tru = [
+            ['e', 0, 31, 31, 62], 
+            ['f', 645, 36, 36, 717]
+            ]
         # self.data2_snd = [
         #     ['e', 0],
         #     ['d', 1],
@@ -284,49 +302,41 @@ class TestChecker:
         #     ['g', 8754]   
         # ]
 
-        d1_rel = self.checker.sum_df_cols(
-            self.__form_df(self.data1),
-            ).values.tolist()
-        d2_rel = self.checker.drop_cols(
-            self.checker.sum_df_cols(
-                self.checker.join_df(
+        d1 = self.__form_df(self.data1)
+        self.checker.sum_df_cols(d1)
+        d1_rel = d1.values.tolist()
+
+        d2 = self.checker.join_df(
                     self.__form_df(self.data2),
                     self.__form_df(self.data3, cols=[KEY, COL_3, COL_4]),
                     KEY
-                ), 
-            ),
-            [COL_1, COL_2, COL_3, COL_4]
-        ).values.tolist()
-        d3_rel = self.checker.drop_cols(
-                self.checker.sum_df_cols(
-                    self.checker.join_df(
+                )
+        self.checker.sum_df_cols(d2)
+        d2_rel = d2.values.tolist()
+
+        d3 = self.checker.join_df(
                         self.__form_df(self.data3_fst, cols=[KEY, COL_1]),
                         self.__form_df(self.data3_snd, cols=[KEY, COL_2]),
                         KEY
-                    ), 
-                ),
-                [COL_1, COL_2]
-            ).values.tolist()
-        d4_rel = self.checker.drop_cols(
-                self.checker.sum_df_cols(
-                    self.checker.join_df(
+                    )
+        self.checker.sum_df_cols(d3)
+        d3_rel = d3.values.tolist()
+
+        d4 = self.checker.join_df(
                         self.__form_df(self.data2_snd, cols=[KEY, COL_1]),
                         self.__form_df(self.data4, cols=[KEY, COL_2, COL_3]),
                         KEY
-                    ), 
-                ),
-                [COL_1, COL_2, COL_3]
-            ).values.tolist()
-        d5_rel = self.checker.drop_cols(
-                self.checker.sum_df_cols(
-                    self.checker.join_df(
+                    )
+        self.checker.sum_df_cols(d4)
+        d4_rel = d4.values.tolist()
+
+        d5 = self.checker.join_df(
                         self.__form_df(self.data3, cols=[KEY, COL_1, COL_2]),
                         self.__form_df(self.data4_fst, cols=[KEY, COL_3]),
                         KEY
-                    ), 
-                ),
-                [COL_1, COL_2, COL_3]
-            ).values.tolist()
+                    )
+        self.checker.sum_df_cols(d5)
+        d5_rel = d5.values.tolist()
 
         assert self.__eq_data(d1_tru, d1_rel)
         assert self.__eq_data(d2_tru, d2_rel)
@@ -335,10 +345,13 @@ class TestChecker:
         assert self.__eq_data(d5_tru, d5_rel)
 
     def test_avg_df_cols(self):
-        # case1: empty data
         d1_tru = []
-        # case2: rows with missing values
-        d2_tru = [['a', 885/4], ['c', 678/4], ['d', 7/4]]
+
+        d2_tru = [
+            ['a', 401, 0, 32, 452, 885/4], 
+            ['c', 238, 238, 101, 101, 678/4], 
+            ['d', 0, 1, 3, 3, 7/4]
+        ]
         # self.data2 = [
         #     ['a', 401, nan],
         #     ['c', 238, 238],
@@ -353,8 +366,12 @@ class TestChecker:
         #     ['d', abs(-3), 3]    
         # ]
 
-        # case4: rows with values that are not number
-        d3_tru = [['a', 484/2], ['b', 516/2], ['c', 202/2], ['d', 6/2]]
+        d3_tru = [
+            ['a', 32, 452, 484/2], 
+            ['b', 263, 253, 516/2], 
+            ['c', 101, 101, 202/2],
+            ['d', 3, 3, 6/2]
+        ]        
         # self.data3_fst = [
         #     ['a', 32],
         #     ['b', 263],
@@ -367,8 +384,11 @@ class TestChecker:
         #     ['d', 3],   
         #     ['b', 253], 
         # ]
-        
-        d4_tru = [['e', 62/3], ['f', 717/3]]
+
+        d4_tru = [
+            ['e', 0, 31, 31, 62/3], 
+            ['f', 645, 36, 36, 717/3]
+            ]
         # self.data2_snd = [
         #     ['e', nan],
         #     ['d', 1],
@@ -396,56 +416,99 @@ class TestChecker:
         #     ['g', 8754]   
         # ]
 
-        d1_rel = self.checker.avg_df_cols(
-            self.__form_df(self.data1),
-            ).values.tolist()
+        d1 = self.__form_df(self.data1)
+        self.checker.sum_df_cols(d1)
+        d1_rel = d1.values.tolist()
 
-        d2_rel = self.checker.drop_cols(
-            self.checker.avg_df_cols(
-                self.checker.join_df(
+        d2 = self.checker.join_df(
                     self.__form_df(self.data2),
                     self.__form_df(self.data3, cols=[KEY, COL_3, COL_4]),
                     KEY
-                ), 
-            ),
-            [COL_1, COL_2, COL_3, COL_4]
-        ).values.tolist()
+                )
+        self.checker.avg_df_cols(d2)
+        d2_rel = d2.values.tolist()
 
-        d3_rel = self.checker.drop_cols(
-                self.checker.avg_df_cols(
-                    self.checker.join_df(
+        d3 = self.checker.join_df(
                         self.__form_df(self.data3_fst, cols=[KEY, COL_1]),
                         self.__form_df(self.data3_snd, cols=[KEY, COL_2]),
                         KEY
-                    ), 
-                ),
-                [COL_1, COL_2]
-            ).values.tolist()
+                    )
+        self.checker.avg_df_cols(d3)
+        d3_rel = d3.values.tolist()
 
-        d4_rel = self.checker.drop_cols(
-                self.checker.avg_df_cols(
-                    self.checker.join_df(
+        d4 = self.checker.join_df(
                         self.__form_df(self.data2_snd, cols=[KEY, COL_1]),
                         self.__form_df(self.data4, cols=[KEY, COL_2, COL_3]),
                         KEY
-                    ), 
-                ),
-                [COL_1, COL_2, COL_3]
-            ).values.tolist()
+                    )
+        self.checker.avg_df_cols(d4)
+        d4_rel = d4.values.tolist()
 
-        d5_rel = self.checker.drop_cols(
-                self.checker.avg_df_cols(
-                    self.checker.join_df(
+        d5 = self.checker.join_df(
                         self.__form_df(self.data3, cols=[KEY, COL_1, COL_2]),
                         self.__form_df(self.data4_fst, cols=[KEY, COL_3]),
                         KEY
-                    ), 
-                ),
-                [COL_1, COL_2, COL_3]
-            ).values.tolist()
+                    )
+        self.checker.avg_df_cols(d5)
+        d5_rel = d5.values.tolist()
 
         assert self.__eq_data(d1_tru, d1_rel)
         assert self.__eq_data(d2_tru, d2_rel)
         assert self.__eq_data(d3_tru, d3_rel)
         assert self.__eq_data(d4_tru, d4_rel)
         assert self.__eq_data(d5_tru, d5_rel)
+
+    def test_nan_to_zero(self):
+        d_tru = [
+            ['a', 0, 1],
+            ['b', 0, 0],
+            [0, 1, 0]
+        ]
+        # self.data5 = [
+        #     ['a', nan, 1],
+        #     ['b', nan, nan],
+        #     [nan, 1, nan],
+        #     ]
+
+        d = self.__form_df(self.data5)  
+        self.checker.nan_to_zero(d)
+        d_rel = d.values.tolist()
+
+        assert self.__eq_data(d_tru, d_rel)
+
+    def test_rename_col(self):
+        cols_tru = [KEY, COL_1, COL_3]
+
+        d = self.__form_df(self.data1)  
+        self.checker.rename_col(d, COL_2, COL_3)
+        cols_rel = list(d.columns)
+
+        assert self.__eq_data(cols_tru, cols_rel)
+
+    def test_keep_cols(self):
+        d_tru = [
+           ['a', 0],
+           ['c', 238],
+           ['d', 1],
+           ['e', 0],
+           ['f', 645]
+        ]
+        # self.data2 = [
+            # ['a', 401, 0],
+            # ['c', 238, 238],
+            # ['d', 0, 1],
+            # ['e', 0, 0],
+            # ['f', 523, 645]
+        # ]
+
+        d = self.__form_df(self.data2)  
+        self.checker.keep_cols(d, [KEY, COL_2])
+        d_rel = d.values.tolist()
+
+        assert self.__eq_data(d_tru, d_rel)
+
+
+
+
+
+ 

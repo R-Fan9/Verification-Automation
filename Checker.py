@@ -12,7 +12,7 @@ class Checker:
         df_unmatch = df[df[col1] != df[col2]]
         return df_unmatch
 
-    @staticmethod
+    @staticmethod 
     def sum_df_cols(df):
         df[ut.COL_SUM] = df.sum(axis=1, skipna=True)
 

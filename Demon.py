@@ -7,6 +7,6 @@ def main():
     checker = Checker
     controller = Controller.get_instance(view, checker)
 
-    controller.run_checker()
+    controller.run_checker_auto()
     
 main()

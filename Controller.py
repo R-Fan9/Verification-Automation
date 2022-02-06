@@ -6,7 +6,8 @@ class Controller:
     __checker = None
     __controller = None
 
-    __multi_file_num = 2
+    __multi_file_num = 5
+    __DUP_col_num = 4
 
     @staticmethod
     def get_instance(view, checker):
@@ -72,7 +73,9 @@ class Controller:
         self.__checker.nan_to_zero(dfj)
 
         df_unmatch = self.__checker.get_unmatch(dfj, f1_hd, f2_hd)
+        self.__view.print_file_names([file1[0], file2[0]])
         self.__view.print_df(df_unmatch)
+        print()
 
     def multi_file_mode(self, f_map, file2):
 
@@ -95,9 +98,32 @@ class Controller:
         self.__checker.nan_to_zero(dfj)
 
         df_unmatch = self.__checker.get_unmatch(dfj, func, f2_hd)
+        self.__view.print_file_names(f_map.keys().append(file2[0]))
         self.__view.print_df(df_unmatch)
+        print()
 
-    def run_checker(self):
+    def run_checker_auto(self):
+        for check in ut.check_files.keys():
+            if(check == 'rm' or check == 'md'):
+                for files in ut.check_files[check]:
+                    f1 = files[0]
+                    f2 = files[1]
+                    self.single_file_mode(f1, f2)
+            elif(check == 'm_DUP'):
+                i = 0
+                for files in ut.check_files[check]:
+                    f1 = files[0]
+                    f2 = files[1]
+                    f2[1]['header'] += ' 00:00:00.{}'.format(i%self.__DUP_col_num)
+                    self.single_file_mode(f1,f2)
+                    i += 1
+            elif(check == 'mmd'):
+                for files in ut.check_files[check]:
+                    f1 = files[0]
+                    f_map = files[1]
+                    self.multi_file_mode(f_map, f1)
+
+    def run_checker_manual(self):
         self.__view.print_mode_prompt()
         mode = self.read_mode_input()
         if mode == "s":

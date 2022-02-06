@@ -34,5 +34,8 @@ class View:
     def print_func_prompt(self):
         print("Please select func {} or {}: ".format(ut.COL_SUM, ut.COL_AVG))
 
+    def print_file_names(self, f_names):
+        print(' vs '.join(f_names))
+    
     def print_df(self, df):
         print(df)

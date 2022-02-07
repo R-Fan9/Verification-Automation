@@ -35,14 +35,14 @@ DASHBOARD_PRE_CUR = ["A1D", "A1U", "A1P", "C1D", "C1U", "C1P",
                      "A1D RUN_PAST", "A1U RUN_PAST", "A1P RUN_PAST", "C1D RUN_PAST", "C1U RUN_PAST", "C1P RUN_PAST"]
 
 
-# inputs (single)
+# inputs (for single file comparison)
 file_dir_Report = 'Report.xlsx'
 file_dir_Master = 'MasterAfterUpdates_1.17.xlsx'
 file_dir_Master_pre = ''
 file_dir_Dashboard = 'AutosysMigration_dashboard2.xlsm'
 Input_date = ''
 
-# inputs (multi)
+# inputs (for multi file comparison)
 file_dir_Master_1 = ''
 file_dir_Master_2 = ''
 file_dir_Master_3 = ''

@@ -43,15 +43,21 @@
 
 \maketitle
 \noindent This Module Interface Specification (MIS) document contains modules, types and
-methods used to support the AutoChecker. The AutoChecker start by prompting the user to select a 
-checker mode (single file vs multi-files). If the single file mode is selected, the user will be 
-prompted to enter two file directories, their corresponding sheets and column headers. Then the 
-checker will output a list of rows with different values. If the multi-files mode is selected, 
-then user will be prompted to enter multiple (default $5$) file directories, their corresponding 
-sheets and column headers. Later, the user will be prompted to enter another file directory 
-and its corresponding sheet and column header. Then, the checker will use the data from these 
-files to output a list of rows with different values
-\texttt{make demo} in terminal.
+methods used to support the AutoChecker. The AutoChecker reads, compares and displays 
+data from different Excel files. By specifying the Excel file paths and grouping the 
+file information in utils.py, the AutoChecker reads and compares data from these files, 
+and displays all rows with unmatching values. The AutoChecker can be launched 
+by typing \texttt{python Demon.py} in terminal.
+
+% This Module Interface Specification (MIS) document contains modules, types and
+% methods used to support the AutoChecker. The AutoChecker start by prompting the user to select a 
+% checker mode (single file vs multi-files). If the single file mode is selected, the user will be 
+% prompted to enter two file directories, their corresponding sheets and column headers. Then the 
+% checker will output a list of rows with different values. If the multi-files mode is selected, 
+% then user will be prompted to enter multiple (default $5$) file directories, their corresponding 
+% sheets and column headers. Later, the user will be prompted to enter another file directory 
+% and its corresponding sheet and column header. Then, the checker will use the data from these 
+% files to output a list of rows with different values
 
 \newpage
 
@@ -67,7 +73,7 @@ specified and implemented for \textit{View} and \textit{Controller}
 \noindent An UML diagram is provided below for visualizing the structure of this software architecture
 
 \begin{center}
-  \includegraphics[width=0.6\textwidth]{UML_AutoChecker.png}
+  \includegraphics[width=0.6\textwidth]{UML_AutoChecker(new).png}
 \end{center}
 
 \medskip
@@ -76,7 +82,7 @@ specified and implemented for \textit{View} and \textit{Controller}
 the abstract object \textit{Checker} compare, aggregate and transform the data gather 
 from external (excel) files. A view module \textit{View} displays prompt messages and 
 rows with different values. The controller \textit{Controller} is responsibe for handling 
-input actions and the control flow of the automation
+input actions and the work flow of the automation
 
 \medskip
 
@@ -112,7 +118,7 @@ Checker = ?
 \hline
 get\_unmatch & DataFrame, String, String & DataFrame & \\
 \hline
-join\_df & DataFrame, DataFrame, String & DataFrame & \\
+join\_df & DataFrame, DataFrame, String, String & DataFrame & \\
 \hline
 sum\_df\_cols & DataFrame & & \\
 \hline
@@ -149,29 +155,29 @@ None
     \item exception: none
 \end{itemize}
 
-\noindent join\_df(df1, df2, key):
+\noindent join\_df(df1, df2, key, how):
 \begin{itemize}
-    \item output: inner join two DataFrames on the specified key
+    \item output: join (default inner) two DataFrames on the specified key 
     \item exception: none
 \end{itemize}
 
 \noindent sum\_df\_cols(df):
 \begin{itemize}
-    \item transition: add an additional column with the input name to the DataFrame that stores the sum of 
+    \item transition: add an additional column the DataFrame that stores the sum of 
     every row from the specified starting index to the ending index
     \item exception: none
 \end{itemize}
 
 \noindent avg\_df\_cols(df):
 \begin{itemize}
-    \item transition: add an additional column with the input name to the DataFrame that stores the average of 
+    \item transition: add an additional column to the DataFrame that stores the average of 
     every row from the specified starting index to the ending index
     \item exception: none
 \end{itemize}
 
 \noindent nan\_to\_zero(df):
 \begin{itemize}
-    \item transition: fill out all the cells with nan with $0$
+    \item transition: fill out all the nan cells  with $0$
     \item exception: none
 \end{itemize}
 
@@ -247,23 +253,25 @@ None
 \begin{tabular}{| l | l | l | p{5cm} |}
   \hline
   \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
-  \hline
-  get\_instance &  & View & \\
-  \hline
-  print\_file\_prompt & &  & \\
-  \hline
-  print\_sheet\_prompt & & & \\
-  \hline
-  print\_prefix\_header & & & \\
-  \hline
-  print\_header\_prompt & & & \\
-  \hline
-  print\_mode\_prompt & & & \\
-  \hline
-  print\_func\_prompt & & & \\
+  print\_file\_names & Seq of String & & \\
   \hline
   print\_df & DataFrame & & \\
   \hline
+  % get\_instance &  & View & \\
+  % \hline
+  % print\_file\_prompt & &  & \\
+  % \hline
+  % print\_sheet\_prompt & & & \\
+  % \hline
+  % print\_prefix\_header & & & \\
+  % \hline
+  % print\_header\_prompt & & & \\
+  % \hline
+  % print\_mode\_prompt & & & \\
+  % \hline
+  % print\_func\_prompt & & & \\
+  % \hline
+
 
 \end{tabular}
 
@@ -289,7 +297,6 @@ None
   \item The constructor can only be called once.
 \end{itemize}
 
-
 \subsubsection* {Access Routine Semantics}
 
 \noindent get\_instance():
@@ -299,34 +306,39 @@ None
 \item exception: none
 \end{itemize}
 
-\noindent print\_file\_prompt():
-\begin{itemize}
-\item transition: window $:=$ Displays a prompt message asking the user to enter a file directory
-\end{itemize}
+% \noindent print\_file\_prompt():
+% \begin{itemize}
+% \item transition: window $:=$ Displays a prompt message asking the user to enter a file directory
+% \end{itemize}
 
-\noindent print\_sheet\_prompt():
-\begin{itemize}
-\item transition: window $:=$ Displays a prompt message asking the user to enter a sheet name
-\end{itemize}
+% \noindent print\_sheet\_prompt():
+% \begin{itemize}
+% \item transition: window $:=$ Displays a prompt message asking the user to enter a sheet name
+% \end{itemize}
 
-\noindent print\_prefix\_header():
-\begin{itemize}
-\item transition: window $:=$ Displays a prompt message asking the user to enter the prefix column's header name
-\end{itemize}
+% \noindent print\_prefix\_header():
+% \begin{itemize}
+% \item transition: window $:=$ Displays a prompt message asking the user to enter the prefix column's header name
+% \end{itemize}
 
-\noindent print\_header\_prompt():
-\begin{itemize}
-\item transition: window $:=$ Displays a prompt message asking the user to enter a header name
-\end{itemize}
+% \noindent print\_header\_prompt():
+% \begin{itemize}
+% \item transition: window $:=$ Displays a prompt message asking the user to enter a header name
+% \end{itemize}
 
-\noindent print\_mode\_prompt():
-\begin{itemize}
-\item transition: window $:=$ Displays a prompt message asking the user to select a checker mode
-\end{itemize}
+% \noindent print\_mode\_prompt():
+% \begin{itemize}
+% \item transition: window $:=$ Displays a prompt message asking the user to select a checker mode
+% \end{itemize}
 
-\noindent print\_func\_prompt():
+% \noindent print\_func\_prompt():
+% \begin{itemize}
+% \item transition: window $:=$ Displays a prompt message asking the user to select a function
+% \end{itemize}
+
+\noindent print\_file\_names(f\_names):
 \begin{itemize}
-\item transition: window $:=$ Displays a prompt message asking the user to select a function
+\item transition: window $:=$ Displays a sequence of file names
 \end{itemize}
 
 \noindent print\_df(df):
@@ -367,24 +379,24 @@ None
 \hline
 get\_instance & View & Controller & \\
 \hline
-read\_file\_input & & String & \\
-\hline
-read\_sheet\_input & & String & \\
-\hline
-read\_prefix\_header & & String & \\
-\hline
-read\_header\_input & & String & \\
-\hline
-read\_func\_input & & String & \\
-\hline
-multi\_file\_mode & Map of String and Map & &\\
+multi\_file\_mode & Map of String and Map, & &\\
                   & Pair of String and Map &  & \\
 \hline
-single\_file\_mode & Pair of String and Map & &\\
+single\_file\_mode & Pair of String and Map, & &\\
                    & Pair of String and Map & & \\
 \hline
 run\_checker & & & \\
 \hline
+% read\_file\_input & & String & \\
+% \hline
+% read\_sheet\_input & & String & \\
+% \hline
+% read\_prefix\_header & & String & \\
+% \hline
+% read\_header\_input & & String & \\
+% \hline
+% read\_func\_input & & String & \\
+% \hline
 \end{tabular}
 
 \subsection* {Semantics}
@@ -422,41 +434,41 @@ get\_instance($v$):
   \item exception: None
 \end{itemize}
 
-\noindent read\_file\_input():
-\begin{itemize}
-  \item output: $input$ : String, file directory entered by the User
-  \item exception: none
-\end{itemize}
+% \noindent read\_file\_input():
+% \begin{itemize}
+%   \item output: $input$ : String, file directory entered by the User
+%   \item exception: none
+% \end{itemize}
 
-\noindent read\_sheet\_input():
-\begin{itemize}
-  \item output: $input$ : String, sheet name entered by the User
-  \item exception: none
-\end{itemize}
+% \noindent read\_sheet\_input():
+% \begin{itemize}
+%   \item output: $input$ : String, sheet name entered by the User
+%   \item exception: none
+% \end{itemize}
 
-\noindent read\_header\_input():
-\begin{itemize}
-  \item output: $input$ : String, prefix column header entered by the User
-  \item exception: none
-\end{itemize}
+% \noindent read\_header\_input():
+% \begin{itemize}
+%   \item output: $input$ : String, prefix column header entered by the User
+%   \item exception: none
+% \end{itemize}
 
-\noindent read\_header\_input():
-\begin{itemize}
-  \item output: $input$ : String, column header entered by the User
-  \item exception: none
-\end{itemize}
+% \noindent read\_header\_input():
+% \begin{itemize}
+%   \item output: $input$ : String, column header entered by the User
+%   \item exception: none
+% \end{itemize}
 
-\noindent read\_mode\_input():
-\begin{itemize}
-  \item output: $input$ : String, mode selected by the User
-  \item exception: none
-\end{itemize}
+% \noindent read\_mode\_input():
+% \begin{itemize}
+%   \item output: $input$ : String, mode selected by the User
+%   \item exception: none
+% \end{itemize}
 
-\noindent read\_func\_input():
-\begin{itemize}
-  \item output: $input$ : String, function selected by the User
-  \item exception: none
-\end{itemize}
+% \noindent read\_func\_input():
+% \begin{itemize}
+%   \item output: $input$ : String, function selected by the User
+%   \item exception: none
+% \end{itemize}
 
 \noindent single\_file\_mode(file1, file2):
 \begin{itemize}
@@ -499,41 +511,41 @@ get\_instance($v$):
   \item output: none
 \end{itemize}
 
-\noindent run\_checker():
-\begin{itemize}
-  \item transition: operational method for running the game. \\
-  Start by prompting the user to select the checker mode (single file vs multi files)
-  \begin{itemize}
-    \item If single file mode is selected:
-      \begin{itemize}[\null]
-        \item ask the user to input the information for two different files
-        \item store the value of information 
-        \item call single\_file\_mode() by passing in the file information
-        % \item $f1$ $:=$ () 
-        % \item $f2$ $:=$ ()
-        % \item populate\_pair($f1$)
-        % \item populate\_pair($f2$)
-        % \item single\_file\_mode($f1$, $f2$)
-      \end{itemize}
-    \item If multi files mode is selected:
-      \begin{itemize}[\null]
-        \item ask the user to input the information for a single file
-        \item store the value of information 
-        \item repeatedly ask the user to enter file information that needs to be aggregated
-        \item store the value of information
-        \item call multi\_files\_mode() by passing in the file information
-        % \item $f\_map$ $:=$ \{\}
-        % \item $f1$ $:=$ () 
-        % \item populate\_pair($f1$)
-        % \item inputs $:=$ get\_inputs()
-        % \item f\_map[inputs[$0$]] $=$ \{'sheet':inputs[$1$], 'header':inputs[$2$]\}
-        % \item populate f\_map by repeating step $3$ - $4$ five times
-        % \item multi\_files\_mode($f\_map$, $f1$)
-      \end{itemize}
-  \end{itemize}
+% \noindent run\_checker():
+% \begin{itemize}
+%   \item transition: operational method for running the game. \\
+%   Start by prompting the user to select the checker mode (single file vs multi files)
+%   \begin{itemize}
+%     \item If single file mode is selected:
+%       \begin{itemize}[\null]
+%         \item ask the user to input the information for two different files
+%         \item store the value of information 
+%         \item call single\_file\_mode() by passing in the file information
+%         % \item $f1$ $:=$ () 
+%         % \item $f2$ $:=$ ()
+%         % \item populate\_pair($f1$)
+%         % \item populate\_pair($f2$)
+%         % \item single\_file\_mode($f1$, $f2$)
+%       \end{itemize}
+%     \item If multi files mode is selected:
+%       \begin{itemize}[\null]
+%         \item ask the user to input the information for a single file
+%         \item store the value of information 
+%         \item repeatedly ask the user to enter file information that needs to be aggregated
+%         \item store the value of information
+%         \item call multi\_files\_mode() by passing in the file information
+%         % \item $f\_map$ $:=$ \{\}
+%         % \item $f1$ $:=$ () 
+%         % \item populate\_pair($f1$)
+%         % \item inputs $:=$ get\_inputs()
+%         % \item f\_map[inputs[$0$]] $=$ \{'sheet':inputs[$1$], 'header':inputs[$2$]\}
+%         % \item populate f\_map by repeating step $3$ - $4$ five times
+%         % \item multi\_files\_mode($f\_map$, $f1$)
+%       \end{itemize}
+%   \end{itemize}
 
-  \item output: None
-\end{itemize}
+%   \item output: None
+% \end{itemize}
 
 \subsubsection*{Local Function:}
 

@@ -40,7 +40,7 @@ file_dir_Report = 'Report.xlsx'
 file_dir_Master = 'MasterAfterUpdates_1.17.xlsx'
 file_dir_Master_pre = 'MasterAfterUpdates_1.17(1).xlsx'
 file_dir_Dashboard = 'AutosysMigration_dashboard2.xlsm'
-Input_date = '2022-11-28'
+Input_date = '2022-2-7'
 
 # inputs (multi)
 file_dir_Master_1 = ''
@@ -234,6 +234,128 @@ multi_master_dashboard = [[[file_dir_Dashboard, {"sheet":SHEET_DASHBOARD, "prefi
                     file_dir_Master_3: {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[11]},
                     file_dir_Master_4: {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[11]},
                     file_dir_Master_5: {"sheet":SHEET_MASTER, "prefix":MASTER_PREFIX, "header":MASTER_HEADER[11]}}]]
+
+
+# MOA
+# utilis for MOA update
+
+# Report
+SHEET_REPORT_MOA = "report"
+REPORT_PREFIX_MOA = "Client-App"
+REPORT_HEADER_MOA = ["TotalJobsDefined", "TotalJobsRun", "TotalJobAlarms", "TotalJobsChanges"]
+
+# Dashboard_out
+SHEET_OUT = 'dashboard'
+OUT_PREFIX = "Prefix"
+OUT_HEADER = ["Jobs Defined", "Jobs Run", "Job Alarms", "TotalJobsChanges"]
+
+# DRAFT
+SHEET_DRAFT = "DRAFT-MOA"
+DRAFT_PREFIX = "Prefix"
+
+# Dashboard
+SHEET_DASHBOARD_MOA = 'DRAFT-MOA Dashboard'
+DASHBOARD_PREFIX_MOA = "Prefix"
+DASHBOARD_HEADER_MOA_SINGLE = ["Jobs Defined", "Job Change", "Def_Previous", "Run_Current", "Prev_alarm", "Current_alarm", "Prev_Change"]
+
+DASHBOARD_HEADER_MOA_MULTI_SUM = ["Jobs Run", "Job Alarms"]
+DASHBOARD_HEADER_MOA_MULTI_AVG = ["Run_Previous", "Job Run avg"]
+
+
+# inputs (single)
+file_dir_Report_MOA = 'report.xlsx'
+file_dir_OUT = 'dashboard_OUT.xlsx'
+file_dir_OUT_pre = 'dashboard_OUT_pre.xlsx'
+file_dir_Dashboard_MOA = 'AutosysMigration_dashboard2.xlsm'
+Input_date_MOA = '2022-2-7'
+
+# inputs (multi) from current week (1) to the sixth week(6)
+file_dir_Draft_1 = 'dashboard_OUT_1'
+file_dir_Draft_2 = 'dashboard_OUT_2'
+file_dir_Draft_3 = 'dashboard_OUT_3'
+file_dir_Draft_4 = 'dashboard_OUT_4'
+file_dir_Draft_5 = 'dashboard_OUT_5'
+file_dir_Draft_6 = 'dashboard_OUT_6'
+
+
+Report_Dashboard_OUT = [[[file_dir_Report_MOA, {"sheet":SHEET_REPORT_MOA, "prefix":REPORT_PREFIX_MOA, "header":REPORT_HEADER_MOA[0]}], 
+                       [file_dir_OUT, {"sheet":SHEET_DRAFT, "prefix":OUT_PREFIX, "header":OUT_HEADER[0]}]],
+
+                       [[file_dir_Report_MOA, {"sheet":SHEET_REPORT_MOA, "prefix":REPORT_PREFIX_MOA, "header":REPORT_HEADER_MOA[1]}], 
+                       [file_dir_OUT, {"sheet":SHEET_DRAFT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]}]],
+
+                       [[file_dir_Report_MOA, {"sheet":SHEET_REPORT_MOA, "prefix":REPORT_PREFIX_MOA, "header":REPORT_HEADER_MOA[2]}], 
+                       [file_dir_OUT, {"sheet":SHEET_DRAFT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]}]],
+
+                       [[file_dir_Report_MOA, {"sheet":SHEET_REPORT_MOA, "prefix":REPORT_PREFIX_MOA, "header":REPORT_HEADER_MOA[3]}], 
+                       [file_dir_OUT, {"sheet":SHEET_DRAFT, "prefix":OUT_PREFIX, "header":OUT_HEADER[3]}]]]
+
+
+Dashboard_Draft = [[[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[0]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DRAFT, "prefix":DRAFT_PREFIX, "header":Input_date_MOA}]],
+
+                    [[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DRAFT, "prefix":DRAFT_PREFIX, "header":Input_date_MOA}]],
+
+                    [[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DRAFT, "prefix":DRAFT_PREFIX, "header":Input_date_MOA}]],
+
+                    [[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[3]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DRAFT, "prefix":DRAFT_PREFIX, "header":Input_date_MOA}]]]
+
+
+Dashboard_single = [[[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[0]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_SINGLE[0]}]],
+
+                    [[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[3]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_SINGLE[1]}]],
+
+                    [[file_dir_OUT_pre, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[0]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_SINGLE[2]}]],
+
+                    [[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_SINGLE[3]}]],
+                    
+                    [[file_dir_OUT_pre, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_SINGLE[4]}]],
+                    
+                    [[file_dir_OUT, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_SINGLE[5]}]],
+                    
+                    [[file_dir_OUT_pre, {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[3]}], 
+                    [file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_SINGLE[6]}]]]
+
+
+Dashboard_multi_sum = [[[file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_MULTI_SUM[0]}],
+                    {file_dir_Draft_2: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_3: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_4: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_5: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_6: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]}}],
+
+                    [[file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_MULTI_SUM[1]}],
+                    {file_dir_Draft_2: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]},
+                    file_dir_Draft_3: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]},
+                    file_dir_Draft_4: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]},
+                    file_dir_Draft_5: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]},
+                    file_dir_Draft_6: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[2]}}]]
+
+
+Dashboard_multi_avg = [[[file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_MULTI_AVG[0]}],
+                    {file_dir_Draft_2: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_3: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_4: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_5: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_6: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]}}],
+
+                    [[file_dir_Dashboard_MOA, {"sheet":SHEET_DASHBOARD_MOA, "prefix":DASHBOARD_PREFIX_MOA, "header":DASHBOARD_HEADER_MOA_MULTI_AVG[1]}],
+                    {file_dir_Draft_1: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_2: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_3: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_4: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]},
+                    file_dir_Draft_5: {"sheet":SHEET_OUT, "prefix":OUT_PREFIX, "header":OUT_HEADER[1]}}]]
+
+
 REPORT_MASTER = 'rm'
 MASTER_DEV_UAT_PROD = 'mDUP'
 MASTER_DASHBOARD = 'md'
@@ -241,8 +363,8 @@ MULTI_MASTER_DASHBOARD = 'mmd'
 
 
 check_files = {
-    #REPORT_MASTER: report_master, 
-    #MASTER_DEV_UAT_PROD: master_DEV_UAT_PROD, 
+    REPORT_MASTER: report_master, 
+    MASTER_DEV_UAT_PROD: master_DEV_UAT_PROD, 
     MASTER_DASHBOARD: master_dashboard, 
     #MULTI_MASTER_DASHBOARD: multi_master_dashboard
     }

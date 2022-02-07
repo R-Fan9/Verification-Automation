@@ -79,7 +79,7 @@ class Controller:
         self.__view.print_df(df_unmatch)
         print()
 
-    def multi_file_mode(self, f_map, file2):
+    def multi_file_mode(self, f_map, file2, func):
 
         f2_pfx = file2[1]["prefix"]
         f2_hd = file2[1]["header"]
@@ -89,8 +89,8 @@ class Controller:
 
         df_mult = self.__map_to_df(f_map)
 
-        self.__view.print_func_prompt()
-        func = self.read_func_input()
+        # self.__view.print_func_prompt()
+        # func = self.read_func_input()
 
         self.__aggregate_cols(df_mult,  func)
 
@@ -106,12 +106,12 @@ class Controller:
 
     def run_checker_auto(self):
         for check in ut.check_files.keys():
-            if(check == ut.REPORT_MASTER or check == ut.MASTER_DASHBOARD):
+            if(check == ut.REPORT_MASTER or check == ut.MASTER_DASHBOARD or check == ut.REPORT_DASHBOARD_OUT or check == ut.DASHBOARD_SINGLE):
                 for files in ut.check_files[check]:
                     f1 = files[0]
                     f2 = files[1]
                     self.single_file_mode(f1, f2)
-            elif(check == ut.MASTER_DEV_UAT_PROD):
+            elif(check == ut.MASTER_DEV_UAT_PROD or check == ut.DASHBOARD_DRAFT):
                 i = 0
                 for files in ut.check_files[check]:
                     f1 = files[0]
@@ -127,11 +127,15 @@ class Controller:
                     self.single_file_mode(f1,f2)
                     i += 1
 
-            elif(check == ut.MULTI_MASTER_DASHBOARD):
+            elif(check == ut.MULTI_MASTER_DASHBOARD or check == ut.DASHBOARD_MULTI_SUM or check == ut.DASHBOARD_MULTI_AVG):
+                func = ut.COL_SUM 
+                if check == ut.DASHBOARD_MULTI_AVG:
+                    func = ut.COL_AVG
+                    
                 for files in ut.check_files[check]:
                     f1 = files[0]
                     f_map = files[1]
-                    self.multi_file_mode(f_map, f1)
+                    self.multi_file_mode(f_map, f1, func)
 
     def run_checker_manual(self):
         self.__view.print_mode_prompt()

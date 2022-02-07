@@ -361,9 +361,20 @@ MASTER_DEV_UAT_PROD = 'mDUP'
 MASTER_DASHBOARD = 'md'
 MULTI_MASTER_DASHBOARD = 'mmd'
 
+REPORT_DASHBOARD_OUT = 'rdo'
+DASHBOARD_DRAFT = 'dd'
+DASHBOARD_SINGLE = 'ds'
+DASHBOARD_MULTI_SUM = 'dms'
+DASHBOARD_MULTI_AVG = 'dma'
+
 check_files = {
     REPORT_MASTER: report_master, 
     MASTER_DEV_UAT_PROD: master_DEV_UAT_PROD, 
     MASTER_DASHBOARD: master_dashboard, 
-    MULTI_MASTER_DASHBOARD: multi_master_dashboard
+    MULTI_MASTER_DASHBOARD: multi_master_dashboard,
+    REPORT_DASHBOARD_OUT: Report_Dashboard_OUT,
+    DASHBOARD_DRAFT: Dashboard_Draft,
+    DASHBOARD_SINGLE: Dashboard_single,
+    DASHBOARD_MULTI_SUM: Dashboard_multi_sum,
+    DASHBOARD_MULTI_AVG: Dashboard_multi_avg
     }

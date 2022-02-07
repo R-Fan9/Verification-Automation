@@ -1,3 +1,4 @@
+from email import header
 import pandas as pd
 import utils as ut
 from datetime import datetime as dt
@@ -115,14 +116,17 @@ class Controller:
                 for files in ut.check_files[check]:
                     f1 = files[0]
                     f2 = files[1]
-                    col_index = i%self.__DUP_col_num
-                    a = f2[1]["header"]
-                    if col_index == 0:
-                        f2[1]["header"] = dt.strptime(a + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+
+                    col_idx = i%self.__DUP_col_num
+                    date = f2[1]["header"]
+
+                    if col_idx == 0:
+                        f2[1]["header"] = dt.strptime(date + " 00:00:00", "%Y-%m-%d %H:%M:%S")
                     else:
-                        f2[1]['header'] += ' 00:00:00.{}'.format(col_index)
+                        f2[1]['header'] = date + ' 00:00:00.{}'.format(col_idx)
                     self.single_file_mode(f1,f2)
                     i += 1
+
             elif(check == ut.MULTI_MASTER_DASHBOARD):
                 for files in ut.check_files[check]:
                     f1 = files[0]

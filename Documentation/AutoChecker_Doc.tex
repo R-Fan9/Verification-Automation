@@ -271,8 +271,6 @@ None
   % \hline
   % print\_func\_prompt & & & \\
   % \hline
-
-
 \end{tabular}
 
 \subsection* {Semantics}
@@ -377,15 +375,13 @@ None
 \hline
 \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 \hline
-get\_instance & View & Controller & \\
+get\_instance & Checker, View & Controller & \\
 \hline
 multi\_file\_mode & Map of String and Map, & &\\
-                  & Pair of String and Map &  & \\
+                  & Pair of String and Map & & \\
 \hline
 single\_file\_mode & Pair of String and Map, & &\\
                    & Pair of String and Map & & \\
-\hline
-run\_checker & & & \\
 \hline
 % read\_file\_input & & String & \\
 % \hline
@@ -427,9 +423,9 @@ None
 
 \subsubsection* {Access Routine Semantics}
 
-get\_instance($v$):
+get\_instance($c$, $v$):
 \begin{itemize}
-  \item transition: controller $:=$ (controller = null $\Rightarrow$ new Controller ($v$))
+  \item transition: controller $:=$ (controller = null $\Rightarrow$ new Controller ($c$, $v$))
   \item output: \textit{self}
   \item exception: None
 \end{itemize}
@@ -550,7 +546,7 @@ get\_instance($v$):
 \subsubsection*{Local Function:}
 
 \_\_init\_\_: View $\rightarrow$ Controller \\
-\_\_init\_\_($view$) $\equiv$ new Controller($view$) \\
+\_\_init\_\_($checker$, $view$) $\equiv$ new Controller($checker$, $view$) \\
 
 % \noindent cal\_sum: seq of $\mathbb{N} \rightarrow \mathbb{N}$\\
 % cal\_sum(seq) $\equiv (+s:\mathbb{N} \; | \; s \in \text{seq} : s)$ \\

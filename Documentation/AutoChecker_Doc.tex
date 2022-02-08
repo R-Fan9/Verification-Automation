@@ -126,7 +126,7 @@ avg\_df\_cols & DataFrame &  & \\
 \hline
 nan\_to\_zero & DataFrame&  & \\
 \hline
-rename\_col & DataFrame, String, String &  & \\
+rename\_col & DataFrame, Map of String and String &  & \\
 \hline
 keep\_cols & DataFrame, Seq of String &  & \\
 \hline
@@ -181,9 +181,9 @@ None
     \item exception: none
 \end{itemize}
 
-\noindent rename\_col(df, old\_name, new\_name):
+\noindent rename\_col(df, name\_map):
 \begin{itemize}
-    \item transition: rename the header of a column in the DataFrame
+    \item transition: rename the column headers in the DataFrame using the name map
     \item exception: none
 \end{itemize}
 
@@ -253,6 +253,7 @@ None
 \begin{tabular}{| l | l | l | p{5cm} |}
   \hline
   \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
   print\_file\_names & Seq of String & & \\
   \hline
   print\_df & DataFrame & & \\

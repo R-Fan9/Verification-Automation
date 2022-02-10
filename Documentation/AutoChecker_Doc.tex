@@ -120,9 +120,17 @@ get\_unmatch & DataFrame, String, String & DataFrame & \\
 \hline
 join\_df & DataFrame, DataFrame, String, String & DataFrame & \\
 \hline
-sum\_df\_cols & DataFrame & & \\
+diff\_df\_1 & DataFrame, DataFrame, String & DataFrame & \\
+\hline
+diff\_df\_2 & DataFrame, DataFrame, String & DataFrame & \\
+\hline
+sum\_df\_col & DataFrame & & \\
 \hline
 avg\_df\_cols & DataFrame &  & \\
+\hline
+get\_rows\_sum & DataFrame, String & $\mathbb{N}$ & \\
+\hline
+find\_val\_idx & DataFrame, String, String & Seq of $\mathbb{N}$ & \\
 \hline
 nan\_to\_zero & DataFrame&  & \\
 \hline
@@ -161,6 +169,18 @@ None
     \item exception: none
 \end{itemize}
 
+\noindent diff\_df\_1(df1, df2, header):
+\begin{itemize}
+    \item output: create another DataFrame that contains values in df1 but not in df2
+    \item exception: none
+\end{itemize}
+
+\noindent diff\_df\_2(df1, df2, key):
+\begin{itemize}
+    \item output: create another DataFrame that contains values in df1 but not in df2 and vice versa
+    \item exception: none
+\end{itemize}
+
 \noindent sum\_df\_cols(df):
 \begin{itemize}
     \item transition: add an additional column the DataFrame that stores the sum of 
@@ -175,9 +195,21 @@ None
     \item exception: none
 \end{itemize}
 
+\noindent get\_rows\_sum(df, header):
+\begin{itemize}
+    \item output: the sum of all rows under the specified header
+    \item exception: none
+\end{itemize}
+
+\noindent find\_val\_idx(df, header, value):
+\begin{itemize}
+    \item output: a list of indices in the specified column that contains the input value
+    \item exception: none
+\end{itemize}
+
 \noindent nan\_to\_zero(df):
 \begin{itemize}
-    \item transition: fill out all the nan cells  with $0$
+    \item transition: fill out all the nan cells with $0$
     \item exception: none
 \end{itemize}
 

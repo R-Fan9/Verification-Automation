@@ -600,7 +600,7 @@ get\_instance($c$, $v$):
 process\_df(dfj, df1, df2, file\_name) $\equiv$ ($r:$ Tuple of $\mathbb{N}$ and Seriers $| r \in$ dfj.iterrows() $|$ 
 process\_util($r[1]$, df1, df2, file\_name)) \\
 
-\noindent process\_util: Seriers $\times$ DataFrame $\times$ DataFrame $\times$ String $\rightarrow$ void \
+\noindent process\_util: Seriers $\times$ DataFrame $\times$ DataFrame $\times$ String $\rightarrow$ void \\
 process\_util(row, df1, df2, f\_name):
 \begin{itemize}[\null]
   \item idx1 $:=$ checker.find\_val\_idx(df1, 'prefix', row['prefix'])

@@ -58,7 +58,6 @@ class Controller:
         return user_input
     
     def single_file_mode(self, file1, file2):
-
         f1_pfx = file1[1]["prefix"]
         f2_pfx = file2[1]["prefix"]
 
@@ -80,7 +79,6 @@ class Controller:
         print()
 
     def multi_file_mode(self, f_map, file2, func):
-
         f2_pfx = file2[1]["prefix"]
         f2_hd = file2[1]["header"]
   

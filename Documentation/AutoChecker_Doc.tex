@@ -410,12 +410,14 @@ None
 \hline
 get\_instance & Checker, View & Controller & \\
 \hline
-multi\_file\_mode & Map of String and Map, & &\\
+single\_col\_mode & Pair of String and Map, & &\\
+                  & Pair of String and Map, & &\\
+                  & Boolean & & \\
+\hline
+multi\_col\_mode & Map of String and Map, & &\\
                   & Pair of String and Map & & \\
 \hline
-single\_file\_mode & Pair of String and Map, & &\\
-                   & Pair of String and Map & & \\
-\hline
+
 % read\_file\_input & & String & \\
 % \hline
 % read\_sheet\_input & & String & \\
@@ -499,23 +501,36 @@ get\_instance($c$, $v$):
 %   \item exception: none
 % \end{itemize}
 
-\noindent single\_file\_mode(file1, file2):
+\noindent single\_col\_mode(file1, file2, check\_idx):
 \begin{itemize}
   \item transition: operational method 
   \begin{itemize}[\null]
-    \item use data from file1 to generate a DataFrame
-    \item use data form file2 to generate a DataFrame
-    \item compare the two DataFrames and display all the unmatching rows
-    % \item df1 $:=$ get\_df\_col(file1[$0$], file1[$1$])
-    % \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
-    % \item dfj $:=$ Checker.join\_df(df1, df2, 'prefix') 
+    % \item use data from file1 to generate a DataFrame
+    % \item use data form file2 to generate a DataFrame
+    % \item compare the two DataFrames and display all the unmatching rows
+    \item f1\_pfx $:=$ file1[$1$]["prefix"]
+    \item f2\_pfx $:=$ file2[$1$]["prefix"]
+    \item f1\_hd $:=$ file1[$1$]["header"]
+    \item f2\_hd $:=$ file2[$1$]["header"]
+    \item df1 $:=$ get\_df\_col(file1[$0$],file1[$1$])
+    \item checker.rename\_col(df1, f1\_pfx, "prefix")
+    \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
+    \item checker.rename\_col(df2, f2\_pfx, "prefix")
+    \item dfj $:=$ checker.join\_df(df1, df2, "prefix")
+    \item checker.nan\_to\_zero(dfj)
+    \item file\_name = file1[$0$] + file2[$0$]
+    \item check\_idx $\Rightarrow$ process\_df(df1, df2, dfj, file\_name) $|$ 
+    !check\_idx $\Rightarrow$ df\_umatches $:=$ checker.get\_unmatch(dfj, f1\_hd, f2\_hd) $\wedge$ 
+    view.out\_file(df\_umatches, file\_name)
+    \item dfd $:=$ checker.diff\_df(df1, d2, "prefix");
+    \item view.out\_file(dfd, file\_name)
     % \item df\_umatches $:=$ Checker.get\_unmatches(dfj, file1[$1$]['header'], file2[$1$]['header'])
     % \item view.print\_df(df\_unmatches)
   \end{itemize}
   \item output: none
 \end{itemize}
 
-\noindent multi\_files\_mode(f\_map, file2):
+\noindent multi\_col\_mode(f\_map, file2):
 \begin{itemize}
   \item transition: operational method 
   \begin{itemize}[\null]
@@ -580,6 +595,20 @@ get\_instance($c$, $v$):
 
 \_\_init\_\_: View $\rightarrow$ Controller \\
 \_\_init\_\_($checker$, $view$) $\equiv$ new Controller($checker$, $view$) \\
+
+\noindent process\_df: DataFrame $\times$ DataFrame $\times$ DataFrame $\times$ String $\rightarrow$ void \\
+process\_df(dfj, df1, df2, file\_name) $\equiv$ ($r:$ Tuple of $\mathbb{N}$ and Seriers $| r \in$ dfj.iterrows() $|$ 
+process\_util($r[1]$, df1, df2, file\_name)) \\
+
+\noindent process\_util: Seriers $\times$ DataFrame $\times$ DataFrame $\times$ String $\rightarrow$ void \
+process\_util(row, df1, df2, f\_name):
+\begin{itemize}[\null]
+  \item idx1 $:=$ checker.find\_val\_idx(df1, 'prefix', row['prefix'])
+  \item idx2 $:=$ checker.find\_val\_idx(df2, 'prefix', row['prefix'])
+  \item view.print\_sheet\_input()
+  \item idx1 $\neq$ idx2 $\Rightarrow$ view.out\_file(row, f\_name, idx1, idx2) $|$
+  idx1 $=$ idx2 $\Rightarrow$ (row[$1$] $\neq$ row[$2$] $\Rightarrow$ view.out\_file(row, f\_name)) 
+\end{itemize}
 
 % \noindent cal\_sum: seq of $\mathbb{N} \rightarrow \mathbb{N}$\\
 % cal\_sum(seq) $\equiv (+s:\mathbb{N} \; | \; s \in \text{seq} : s)$ \\

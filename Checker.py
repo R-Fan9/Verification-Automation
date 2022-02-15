@@ -1,4 +1,5 @@
 import utils as ut
+import pandas as pd
 
 class Checker:
 
@@ -6,6 +7,22 @@ class Checker:
     def join_df(df1, df2, key, how="inner"):
         df_join = df1.merge(df2, how=how, on=key)
         return df_join
+    
+    @staticmethod
+    def diff_df(df1, df2):
+        df = pd.concat([df1,df2]).drop_duplicates(keep=False)
+        return df
+    
+    @staticmethod
+    def get_rows_sum(df):
+        df.loc["Total"] = df.sum(numeric_only=True)
+    
+    @staticmethod
+    def find_val_idx(df, header):
+        index = []
+        for i in df[header]:
+            index.append(i)
+        return index
 
     @staticmethod
     def get_unmatch(df, col1, col2):

@@ -8,6 +8,10 @@ class Checker:
         return df_join
 
     @staticmethod
+    def diff_df(df1, df2, key):
+        pass
+
+    @staticmethod
     def get_unmatch(df, col1, col2):
         df_unmatch = df[df[col1] != df[col2]]
         return df_unmatch
@@ -19,6 +23,14 @@ class Checker:
     @staticmethod
     def avg_df_cols(df):
         df[ut.COL_AVG] = df.mean(axis=1, skipna=True)
+
+    @staticmethod
+    def get_rows_sum(df, header):
+        return df[header].sum()
+
+    @staticmethod
+    def find_val_idx(df, header, value):
+        return list(df.loc[df[header] == value].index)
 
     @staticmethod
     def nan_to_zero(df):

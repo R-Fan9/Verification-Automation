@@ -378,3 +378,18 @@ check_files = {
     DASHBOARD_MULTI_SUM: Dashboard_multi_sum,
     DASHBOARD_MULTI_AVG: Dashboard_multi_avg
     }
+
+# sheet = 'Sheet1'
+
+# prefix = 'PF'
+
+# report_master = [
+#     [
+#         ['Book1.xlsx', {"sheet":sheet, "prefix":prefix, "header":'A'}], 
+#         ['Book2.xlsx', {"sheet":sheet, "prefix":prefix, "header":'B'}]
+#     ]
+# ]
+
+# check_files = {
+#     REPORT_MASTER: report_master
+#     }

@@ -120,9 +120,7 @@ get\_unmatch & DataFrame, String, String & DataFrame & \\
 \hline
 join\_df & DataFrame, DataFrame, String, String & DataFrame & \\
 \hline
-diff\_df\_1 & DataFrame, DataFrame, String & DataFrame & \\
-\hline
-diff\_df\_2 & DataFrame, DataFrame, String & DataFrame & \\
+diff\_df & DataFrame, DataFrame, String & DataFrame & \\
 \hline
 sum\_df\_col & DataFrame & & \\
 \hline
@@ -169,13 +167,7 @@ None
     \item exception: none
 \end{itemize}
 
-\noindent diff\_df\_1(df1, df2, header):
-\begin{itemize}
-    \item output: create another DataFrame that contains values in df1 but not in df2
-    \item exception: none
-\end{itemize}
-
-\noindent diff\_df\_2(df1, df2, key):
+\noindent diff\_df(df1, df2, key):
 \begin{itemize}
     \item output: create another DataFrame that contains values in df1 but not in df2 and vice versa
     \item exception: none
@@ -290,6 +282,8 @@ None
   \hline
   print\_df & DataFrame & & \\
   \hline
+  out\_file & DataFrame, String & & \\
+  \hline
   % get\_instance &  & View & \\
   % \hline
   % print\_file\_prompt & &  & \\
@@ -375,6 +369,11 @@ None
 \noindent print\_df(df):
 \begin{itemize}
 \item transition: window $:=$ Displays the DataFrame
+\end{itemize}
+
+\noindent print\_df(df, file\_name):
+\begin{itemize}
+\item transition: writes the input DataFrame to the specified file
 \end{itemize}
 
 \subsubsection*{Local Function:}
@@ -603,9 +602,8 @@ process\_util($r[1]$, df1, df2, file\_name)) \\
 \noindent process\_util: Seriers $\times$ DataFrame $\times$ DataFrame $\times$ String $\rightarrow$ void \\
 process\_util(row, df1, df2, f\_name):
 \begin{itemize}[\null]
-  \item idx1 $:=$ checker.find\_val\_idx(df1, 'prefix', row['prefix'])
-  \item idx2 $:=$ checker.find\_val\_idx(df2, 'prefix', row['prefix'])
-  \item view.print\_sheet\_input()
+  \item idx1 $:=$ checker.find\_val\_idx(df1, 'prefix', row['prefix']) %list(d1.loc[d1['PF'] == 'a'].index)
+  \item idx2 $:=$ checker.find\_val\_idx(df2, 'prefix', row['prefix']) %ds = pd.concat([ds, s.to_frame().T], ignore_index=True)
   \item idx1 $\neq$ idx2 $\Rightarrow$ view.out\_file(row, f\_name, idx1, idx2) $|$
   idx1 $=$ idx2 $\Rightarrow$ (row[$1$] $\neq$ row[$2$] $\Rightarrow$ view.out\_file(row, f\_name)) 
 \end{itemize}

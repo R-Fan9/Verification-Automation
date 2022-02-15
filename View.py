@@ -39,3 +39,6 @@ class View:
     
     def print_df(self, df):
         print(df)
+
+    def out_file(self, df, file_name, sheet_name):
+        df.to_excel(file_name, sheet_name, index=False)

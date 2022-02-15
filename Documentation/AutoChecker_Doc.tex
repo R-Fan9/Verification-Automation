@@ -120,13 +120,19 @@ get\_unmatch & DataFrame, String, String & DataFrame & \\
 \hline
 join\_df & DataFrame, DataFrame, String, String & DataFrame & \\
 \hline
-sum\_df\_cols & DataFrame & & \\
+diff\_df & DataFrame, DataFrame, String & DataFrame & \\
+\hline
+sum\_df\_col & DataFrame & & \\
 \hline
 avg\_df\_cols & DataFrame &  & \\
 \hline
+get\_rows\_sum & DataFrame, String & $\mathbb{N}$ & \\
+\hline
+find\_val\_idx & DataFrame, String, String & Seq of $\mathbb{N}$ & \\
+\hline
 nan\_to\_zero & DataFrame&  & \\
 \hline
-rename\_col & DataFrame, String, String &  & \\
+rename\_col & DataFrame, Map of String and String &  & \\
 \hline
 keep\_cols & DataFrame, Seq of String &  & \\
 \hline
@@ -161,6 +167,12 @@ None
     \item exception: none
 \end{itemize}
 
+\noindent diff\_df(df1, df2, key):
+\begin{itemize}
+    \item output: create another DataFrame that contains values in df1 but not in df2 and vice versa
+    \item exception: none
+\end{itemize}
+
 \noindent sum\_df\_cols(df):
 \begin{itemize}
     \item transition: add an additional column the DataFrame that stores the sum of 
@@ -175,15 +187,27 @@ None
     \item exception: none
 \end{itemize}
 
-\noindent nan\_to\_zero(df):
+\noindent get\_rows\_sum(df, header):
 \begin{itemize}
-    \item transition: fill out all the nan cells  with $0$
+    \item output: the sum of all rows under the specified header
     \item exception: none
 \end{itemize}
 
-\noindent rename\_col(df, old\_name, new\_name):
+\noindent find\_val\_idx(df, header, value):
 \begin{itemize}
-    \item transition: rename the header of a column in the DataFrame
+    \item output: a list of indices in the specified column that contains the input value
+    \item exception: none
+\end{itemize}
+
+\noindent nan\_to\_zero(df):
+\begin{itemize}
+    \item transition: fill out all the nan cells with $0$
+    \item exception: none
+\end{itemize}
+
+\noindent rename\_col(df, name\_map):
+\begin{itemize}
+    \item transition: rename the column headers in the DataFrame using the name map
     \item exception: none
 \end{itemize}
 
@@ -253,9 +277,12 @@ None
 \begin{tabular}{| l | l | l | p{5cm} |}
   \hline
   \textbf{Routine name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+  \hline
   print\_file\_names & Seq of String & & \\
   \hline
   print\_df & DataFrame & & \\
+  \hline
+  out\_file & DataFrame, String & & \\
   \hline
   % get\_instance &  & View & \\
   % \hline
@@ -344,6 +371,11 @@ None
 \item transition: window $:=$ Displays the DataFrame
 \end{itemize}
 
+\noindent print\_df(df, file\_name):
+\begin{itemize}
+\item transition: writes the input DataFrame to the specified file
+\end{itemize}
+
 \subsubsection*{Local Function:}
 
 \_\_init\_\_: void $\rightarrow$ View \\
@@ -377,12 +409,14 @@ None
 \hline
 get\_instance & Checker, View & Controller & \\
 \hline
-multi\_file\_mode & Map of String and Map, & &\\
+single\_col\_mode & Pair of String and Map, & &\\
+                  & Pair of String and Map, & &\\
+                  & Boolean & & \\
+\hline
+multi\_col\_mode & Map of String and Map, & &\\
                   & Pair of String and Map & & \\
 \hline
-single\_file\_mode & Pair of String and Map, & &\\
-                   & Pair of String and Map & & \\
-\hline
+
 % read\_file\_input & & String & \\
 % \hline
 % read\_sheet\_input & & String & \\
@@ -466,23 +500,36 @@ get\_instance($c$, $v$):
 %   \item exception: none
 % \end{itemize}
 
-\noindent single\_file\_mode(file1, file2):
+\noindent single\_col\_mode(file1, file2, check\_idx):
 \begin{itemize}
   \item transition: operational method 
   \begin{itemize}[\null]
-    \item use data from file1 to generate a DataFrame
-    \item use data form file2 to generate a DataFrame
-    \item compare the two DataFrames and display all the unmatching rows
-    % \item df1 $:=$ get\_df\_col(file1[$0$], file1[$1$])
-    % \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
-    % \item dfj $:=$ Checker.join\_df(df1, df2, 'prefix') 
+    % \item use data from file1 to generate a DataFrame
+    % \item use data form file2 to generate a DataFrame
+    % \item compare the two DataFrames and display all the unmatching rows
+    \item f1\_pfx $:=$ file1[$1$]["prefix"]
+    \item f2\_pfx $:=$ file2[$1$]["prefix"]
+    \item f1\_hd $:=$ file1[$1$]["header"]
+    \item f2\_hd $:=$ file2[$1$]["header"]
+    \item df1 $:=$ get\_df\_col(file1[$0$],file1[$1$])
+    \item checker.rename\_col(df1, f1\_pfx, "prefix")
+    \item df2 $:=$ get\_df\_col(file2[$0$], file2[$1$])
+    \item checker.rename\_col(df2, f2\_pfx, "prefix")
+    \item dfj $:=$ checker.join\_df(df1, df2, "prefix")
+    \item checker.nan\_to\_zero(dfj)
+    \item file\_name = file1[$0$] + file2[$0$]
+    \item check\_idx $\Rightarrow$ process\_df(df1, df2, dfj, file\_name) $|$ 
+    !check\_idx $\Rightarrow$ df\_umatches $:=$ checker.get\_unmatch(dfj, f1\_hd, f2\_hd) $\wedge$ 
+    view.out\_file(df\_umatches, file\_name)
+    \item dfd $:=$ checker.diff\_df(df1, d2, "prefix");
+    \item view.out\_file(dfd, file\_name)
     % \item df\_umatches $:=$ Checker.get\_unmatches(dfj, file1[$1$]['header'], file2[$1$]['header'])
     % \item view.print\_df(df\_unmatches)
   \end{itemize}
   \item output: none
 \end{itemize}
 
-\noindent multi\_files\_mode(f\_map, file2):
+\noindent multi\_col\_mode(f\_map, file2):
 \begin{itemize}
   \item transition: operational method 
   \begin{itemize}[\null]
@@ -547,6 +594,19 @@ get\_instance($c$, $v$):
 
 \_\_init\_\_: View $\rightarrow$ Controller \\
 \_\_init\_\_($checker$, $view$) $\equiv$ new Controller($checker$, $view$) \\
+
+\noindent process\_df: DataFrame $\times$ DataFrame $\times$ DataFrame $\times$ String $\rightarrow$ void \\
+process\_df(dfj, df1, df2, file\_name) $\equiv$ ($r:$ Tuple of $\mathbb{N}$ and Seriers $| r \in$ dfj.iterrows() $|$ 
+process\_util($r[1]$, df1, df2, file\_name)) \\
+
+\noindent process\_util: Seriers $\times$ DataFrame $\times$ DataFrame $\times$ String $\rightarrow$ void \\
+process\_util(row, df1, df2, f\_name):
+\begin{itemize}[\null]
+  \item idx1 $:=$ checker.find\_val\_idx(df1, 'prefix', row['prefix']) %list(d1.loc[d1['PF'] == 'a'].index)
+  \item idx2 $:=$ checker.find\_val\_idx(df2, 'prefix', row['prefix']) %ds = pd.concat([ds, s.to_frame().T], ignore_index=True)
+  \item idx1 $\neq$ idx2 $\Rightarrow$ view.out\_file(row, f\_name, idx1, idx2) $|$
+  idx1 $=$ idx2 $\Rightarrow$ (row[$1$] $\neq$ row[$2$] $\Rightarrow$ view.out\_file(row, f\_name)) 
+\end{itemize}
 
 % \noindent cal\_sum: seq of $\mathbb{N} \rightarrow \mathbb{N}$\\
 % cal\_sum(seq) $\equiv (+s:\mathbb{N} \; | \; s \in \text{seq} : s)$ \\
